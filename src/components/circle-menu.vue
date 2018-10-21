@@ -56,11 +56,11 @@
         open: false,
         toggleAnimate: false,
         MaskToggle: false,
-        BtnColor: '#f4042b',
-        Item1Color: '#ffa000',
-        Item2Color: '#8e24aa',
-        Item3Color: '#00e676',
-        Item4Color: '#40c4ff'
+        BtnColor: '#ff6600',
+        Item1Color: '#ff6600',
+        Item2Color: '#ff6600',
+        Item3Color: '#ff6600',
+        Item4Color: '#ff6600'
       }
     },
     methods: {

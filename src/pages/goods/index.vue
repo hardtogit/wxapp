@@ -799,7 +799,7 @@ export default {
   top:40rpx;
   color: #f6f6f6;
   font-size: 22rpx;
-  background-color: #f4042b;
+  background-color: #ff6600;
   width: 180rpx;
   height: 64rpx;
   border-bottom-left-radius: 32rpx;
