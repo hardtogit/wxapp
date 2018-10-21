@@ -1,0 +1,10 @@
+import mutations from './mutations'
+import actions from './actions'
+const App = {
+  state: {
+    count: 0
+  },
+  mutations,
+  actions
+}
+export default App
