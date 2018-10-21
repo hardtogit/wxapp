@@ -12,7 +12,7 @@
             </div>
             <div class="close-btn" @click="showFunc"></div>
           </div>
-          <!--弹框内容 end-->  
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>

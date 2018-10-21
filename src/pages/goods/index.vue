@@ -4,9 +4,7 @@
       :scroll-y="isScroll"
       :upper-threshold="-30"
       :lower-threshold="50"
-
       @scrolltolower="scrolltolower"
-      @scroll="WatchScroll"
       class='scroller-box'
      >
       <!-- 图片轮播 start -->
@@ -19,6 +17,11 @@
         </block>
       </swiper>
       <!-- 图片轮播 end -->
+      <!-- 生成海报 start -->
+       <div class="creatPost" @click="BuildPoster()">
+          生成分享海报
+       </div>
+      <!-- 生成海报 end -->
       <!-- 商品信息 start -->
       <div class="product-info-card">
         <div class="basic-info">
@@ -83,6 +86,11 @@
         </div>
       </div>
       <!-- 商铺信息 end -->
+      <!-- 分享者二维码 start -->
+       <!--<div class="shireContainer">-->
+         <!--<img class="shireCode" :src="GoodsInfo.qrcode"  alt="">-->
+       <!--</div>-->
+      <!-- 分享者二维码 end -->
       <!-- 商品详情 start -->
       <div class="common-card">
         <div class="card-header">
@@ -206,6 +214,17 @@
     <!--授权登陆弹框 start-->
     <authorization-pop ref="authorizationPop" @successFunc="AuthorizeSuccess"></authorization-pop>
     <!--授权登陆弹框 end-->
+    <circle-menu class="circleMenu"
+                 type="top" :number="4"
+                 :btn="true" :circle="true"
+                 :btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},
+                 {text:'我也',extend:'要卖',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
+                 ]">
+      <!--<a slot="item_1" @click="popShowFunc('shopinfoPop')" class="fa fa-twitter fa-lg" herf="#" >商户信息</a>-->
+      <!--<a slot="item_2" @click="popShowFunc('technicalSupportPop')" class="fa fa-weixin fa-lg" herf="#" >技术支持</a>-->
+      <!--<a slot="item_3" @click="popShowFunc('becomeBusinessPop')" class="fa fa-weibo fa-lg" herf="#" >我也要卖</a>-->
+      <!--<a slot="item_4" @click="GoToMeView()" class="fa fa-github fa-lg" herf="#" >会员中心</a>-->
+    </circle-menu>
   </div>
 </template>
 
@@ -228,6 +247,7 @@ import posterPop from '@/components/poster-pop'
 import bindMobile from '@/components/bind-mobile'
 import phoneView from '@/components/phone-view'
 import authorizationPop from '@/components/authorization-pop'
+import circleMenu from '@/components/circle-menu'
 import SN from '@/config/localstorage.name'
 import * as utils from '@/utils/utils'
 export default {
@@ -270,7 +290,8 @@ export default {
     bindMobile,
     receiveCoupon,
     phoneView,
-    authorizationPop
+    authorizationPop,
+    circleMenu
   },
   methods: {
     // 下拉刷新
@@ -357,7 +378,7 @@ export default {
     // 生成海报
     BuildPoster () {
       const _this = this
-      this.$refs.sharePopView.showFunc()
+      this.$refs.sharePopView.showFunc(true)
       if (_this.posterPic !== '') {
         this.$refs.posterPop.showFunc()
       } else {
@@ -490,9 +511,9 @@ export default {
     // 获取商品信息
     GetGoodsInfo (type) {
       const _this = this
-      if (type && type === 'refresh') {
-        wx.startPullDownRefresh()
-      } else {
+      if (!type) {
+      //   wx.startPullDownRefresh()
+      // } else {
         wx.showLoading({
           title: '数据加载中'
         })
@@ -611,9 +632,7 @@ export default {
     }
   },
   onPullDownRefresh () {
-    setTimeout(() => {
-      wx.stopPullDownRefresh()
-    }, 2000)
+    this.GetGoodsInfo('refresh')
   },
   onLoad (option) {
     const _this = this
@@ -738,6 +757,12 @@ export default {
       }
     }
   }
+  .shireContainer{
+    margin-top: 20rpx;
+    .shireCode{
+      width: ;
+    }
+  }
   .use-info{
     padding: 20rpx 0;
     display: flex;
@@ -767,6 +792,20 @@ export default {
       background-size: 100% 100%;
     }
   }
+}
+.creatPost{
+  position: fixed;
+  right: 0;
+  top:40rpx;
+  color: #f6f6f6;
+  font-size: 22rpx;
+  background-color: #f4042b;
+  width: 180rpx;
+  height: 64rpx;
+  border-bottom-left-radius: 32rpx;
+  border-top-left-radius: 32rpx;
+  line-height: 64rpx;
+  text-align: center;
 }
 .shop-authentication-card{
     width: 100%;
@@ -1058,4 +1097,9 @@ export default {
     height: 200rpx;
   }
 }
+  .circleMenu{
+    position: fixed;
+    right: 10rpx;
+    bottom:10rpx
+  }
 </style>

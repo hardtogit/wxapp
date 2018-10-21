@@ -23,8 +23,8 @@
                   <div class="pygm-btn">朋友购买可获得¥{{spreaderrebate}}奖励</div>
                 </div>
               </div>
-            </div>  
-          <!--弹框内容 end-->  
+            </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
@@ -52,8 +52,12 @@ export default {
   },
   methods: {
     // 弹框基本配置 start
-    showFunc () {
-      this.popShow = !this.popShow
+    showFunc (type) {
+      if (type) {
+        this.popShow = false
+      } else {
+        this.popShow = !this.popShow
+      }
     },
     // 弹框基本配置 end
     BuildPoster () {

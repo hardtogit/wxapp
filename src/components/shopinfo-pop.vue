@@ -17,7 +17,7 @@
                     <p>营业执照编号：{{dataInfo.datum.orgid}}</p>
                   </div>
                   <div class="list-item" v-if="dataInfo.datum">
-                    <p>公司注册资金：{{dataInfo.datum.capitals}}万人民币</p>
+                    <p>公司注册资金：{{dataInfo.datum.regamount}}元人民币</p>
                   </div>
                   <div class="list-item">
                     <p>公司注册地址：{{dataInfo.detailAddress}}</p>
@@ -33,8 +33,8 @@
                   </div>
                 </div>
               </div>
-            </div>  
-          <!--弹框内容 end-->  
+            </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
