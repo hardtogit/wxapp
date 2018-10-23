@@ -39,29 +39,29 @@
             <div class="icon-box wddd-btn"></div>
             <p>我的订单</p>
           </div>
-          <div class="menu-item">
-            <div class="icon-box shdz-btn"></div>
-            <p>收货地址</p>
-          </div>
-          <div class="menu-item">
-            <div class="icon-box grzl-btn"></div>
-            <p>个人资料</p>
-          </div>
+          <!--<div class="menu-item">-->
+            <!--<div class="icon-box shdz-btn"></div>-->
+            <!--<p>收货地址</p>-->
+          <!--</div>-->
+          <!--<div class="menu-item">-->
+            <!--<div class="icon-box grzl-btn"></div>-->
+            <!--<p>个人资料</p>-->
+          <!--</div>-->
           <div class="menu-item" @click="ToOtherPage('../saleStatistics/main')">
             <div class="icon-box zjxs-btn"></div>
             <p>直接销售</p>
           </div>
-          <div class="menu-item" @click="ToOtherPage('../myTeam/main')">
-            <div class="icon-box tdyh-btn"></div>
-            <p>团队用户</p>
-          </div>
+          <!--<div class="menu-item" @click="ToOtherPage('../myTeam/main')">-->
+            <!--<div class="icon-box tdyh-btn"></div>-->
+            <!--<p>团队用户</p>-->
+          <!--</div>-->
           <div class="menu-item">
             <div class="icon-box pjgl-btn"></div>
             <p>评价管理</p>
           </div>
           <div class="menu-item">
-            <div class="icon-box sjdl-btn"></div>
-            <p>升级代理</p>
+            <div class="icon-box sjdl-btn" @click="ToOtherPage('../changeInfo/main')"></div>
+            <p>资料修改</p>
           </div>
           <div class="menu-item" @click="popShowFunc('helpView')">
             <div class="icon-box xtbz-btn"></div>
