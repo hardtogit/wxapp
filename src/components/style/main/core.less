@@ -16,11 +16,11 @@
   }
   @{middle} &{
     .CircleItem();
-  } 
+  }
   .middle-around &{
     .CircleItem();
-  } 
-  
+  }
+
 }
 .oy-menu-group.open .btn-list .oy-menu-item{
   @{top} &{
@@ -37,17 +37,17 @@
   }
   @{middle} &{
     opacity: 1;
-  } 
+  }
   .middle-around &{
     opacity: 1;
-  } 
-  
+  }
+
 }
 
 // tope 样式
 .top-open(@n, @i: 1) when (@i =< @n) {
   .top .oy-menu-group.open .btn-list .oy-menu-item.oy-menu-item_@{i} {
-    top: (@i * @MenuPrepSpace);
+    top:  if((@i>1),(@i * @MenuPrepSpace)+40px) if((@i=1),(@i * @MenuPrepSpace)+20px);
     transition: 0.2s 0.1s;
   }
   .top-open(@n, (@i + 1));
@@ -59,8 +59,8 @@
   .top(@n, (@i + 1));
 }
 
-.top(4);
-.top-open(4);
+.top(5);
+.top-open(5);
 
 // bottom的样式
 .bottom-open(@n, @i: 1) when (@i =< @n) {

@@ -4,19 +4,23 @@
       <div class="oy-mask-black" v-show="MaskToggle" v-if="mask==='black'" @click="toggle"></div>
       <div class="oy-mask-white" v-show="MaskToggle" v-if="mask==='white'" @click="toggle"></div>
       <div class="oy-menu-group" :class="{'open':open}">
-        <button class="oy-menu-btn btn-toggle pink"  :class="{'oy-menu-btn-Circle':circle}" :style='{background:BtnColor}' @click="toggle">
-          <i class="icon-bars" v-if="btn"></i>
+        <img v-if="!open" style="border:none"  class="oy-menu-btn btn-toggle  oy-menu-btn-Circle " src="../../static/image/logo.png" alt="" @click="toggle">
+        <img v-if="btn&&open" style="border:none" class="oy-menu-btn btn-toggle " src="../../static/image/close.png"  :class="{'oy-menu-btn-Circle':circle}"  @click="toggle">
+          <i class="icon-bars" ></i>
           <slot name="item_btn"></slot>
-        </button>
+        </img>
         <div class="btn-list">
+          <div  class="oy-menu-item oy-menu-item_1 purple" :class="AnimateClass"
+                style="background-color: transparent;border:none"
+                v-show="number > 1 && number < 5">
+            <div class="shu"></div>
+          </div>
           <div  v-for="(btn,index)  in btns" :key="index"
                 @click="btn.fn()"
-                :class="{'oy-menu-item':true,'oy-menu-item_1 yellow':index===0,'oy-menu-item_2 purple':index===1,'oy-menu-item_3 green':index===2,'oy-menu-item_4 blue':index===3 ,AnimateClass }" >
-            <a style="font-size: 24rpx;line-height: 1.2;margin-top: 14rpx;padding-top:8rpx;color:#f6f6f6"><text>{{btn.text}}\n{{btn.extend}}</text></a>
+                :class="{'oy-menu-item':true,'oy-menu-item_2 yellow':index===0,'oy-menu-item_3 purple':index===1,'oy-menu-item_4 green':index===2,'oy-menu-item_5 blue':index===3 ,AnimateClass }" >
+            <a style="font-size: 24rpx;line-height: 1.2;margin-top: 14rpx;padding-top:2rpx;color:#f6f6f6"><text>{{btn.text}}\n{{btn.extend}}</text></a>
           </div>
-          <!--<div  class="oy-menu-item oy-menu-item_2 purple" :class="AnimateClass" :style='{background:Item2Color}' v-show="number > 1 && number < 5">-->
-            <!--<slot name="item_2"></slot>-->
-          <!--</div>-->
+
           <!--<div  class="oy-menu-item oy-menu-item_3 green" :class="AnimateClass" :style='{background:Item3Color}' v-show="isShow">-->
             <!--<slot name="item_3"></slot>-->
           <!--</div>-->
@@ -56,11 +60,11 @@
         open: false,
         toggleAnimate: false,
         MaskToggle: false,
-        BtnColor: '#ff6600',
-        Item1Color: '#ff6600',
-        Item2Color: '#ff6600',
-        Item3Color: '#ff6600',
-        Item4Color: '#ff6600'
+        BtnColor: '#ff9933',
+        Item1Color: '#ff9933',
+        Item2Color: '#ff9933',
+        Item3Color: '#ff9933',
+        Item4Color: '#ff9933'
       }
     },
     methods: {

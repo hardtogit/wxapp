@@ -14,9 +14,9 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: [
-      '^pages/me/main',
+      'pages/me/main',
       'pages/comment/main',
-      'pages/goods/main',
+      '^pages/goods/main',
       'pages/orderDetail/main',
       'pages/orderList/main',
       'pages/myTeam/main',
@@ -28,7 +28,8 @@ export default {
       'pages/paySuccess/main',
       'pages/createComment/main',
       'pages/news/main',
-      'pages/changeInfo/main'
+      'pages/changeInfo/main',
+      'pages/withdrawRecord/main'
     ],
     window: {
       navigationBarBackgroundColor: '#fff',

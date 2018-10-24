@@ -61,3 +61,21 @@ export function Bindmobile (data) {
     data
   })
 }
+
+// 获取提现记录
+export function GetWithdrawRecord (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.USER_API + '.finance/drawing',
+    method: 'post',
+    data
+  })
+}
+
+// 余额提现
+export function Withdraw (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.USER_API + '.finance/drawingpush',
+    method: 'post',
+    data
+  })
+}

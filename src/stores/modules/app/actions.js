@@ -352,6 +352,34 @@ export default {
       })
     })
   },
+  GetWithdrawRecord ({commit}, opt) {
+    return new Promise((resolve, reject) => {
+      UserApi.GetWithdrawRecord(opt.data).then(response => {
+        if (response.code === config.StatusCode.Success) {
+          resolve(response)
+        } else {
+          reject(response)
+        }
+      }).catch(error => {
+        console.error('[GetWithdrawRecord]: \n', error)
+        reject(error)
+      })
+    })
+  },
+  Withdraw ({commit}, opt) {
+    return new Promise((resolve, reject) => {
+      UserApi.Withdraw(opt.data).then(response => {
+        if (response.code === config.StatusCode.Success) {
+          resolve(response)
+        } else {
+          reject(response)
+        }
+      }).catch(error => {
+        console.error('[Withdraw]: \n', error)
+        reject(error)
+      })
+    })
+  },
   CreateComment ({commit}, opt) {
     return new Promise((resolve, reject) => {
       OrderApi.CreateComment(opt.data).then(response => {

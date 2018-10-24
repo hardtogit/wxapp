@@ -1,9 +1,13 @@
+<script src="main.js"></script>
 <template>
   <div class="container-box">
     <div class="container-main-box" v-if="UserInfo">
       <div class="header-box">
         <div class="to-shop-admin" @click="ToBusinessCenter">
-          <p>切换到商户版</p>
+          <div  class="circle">
+            <div class="top-text">切换</div>
+            <div class="bottom-text">商户版</div>
+          </div>
         </div>
         <!-- <div class="to-backstage" @click="ScanCodeFunc">
           <p>商户扫码绑定</p>
@@ -15,23 +19,24 @@
           <div class="list-item">注册时间：{{regtime}}</div>
         </div>
       </div>
+      <dev class="in-text">我的收入</dev>
       <div class="basic-data-box">
         <div class="data-main">
           <!-- <div class="data-item" @click="ToOtherPage('../reward/main')"> -->
-          <div class="data-item" @click="ToOtherPage('../saleStatistics/main')">
-            <p class="item-price"><span>¥</span>{{UserInfo.stats.spreaderrebate}}</p>
-            <p class="item-name">个人奖励</p>
+          <div class="out-btn" @click="withdraw()"><div class="circle">￥</div> 提现</div>
+          <div class="left">
+            <div class="out-text">可提现收入</div>
+            <div class="out-num" >{{UserInfo.balance}}</div>
+            <div class="recommend-text">推荐收入</div>
+            <div class="recommend-num">{{UserInfo.stats.spreaderrebate}}</div>
           </div>
-          <div class="data-item">
-            <p class="item-price"><span>¥</span>{{UserInfo.stats.teamrebate}}</p>
-            <p class="item-name">团队奖励</p>
-          </div>
-          <div class="data-item" @click="ToOtherPage('../accountBalance/main')">
-            <p class="item-price"><span>¥</span>{{UserInfo.balance}}</p>
-            <p class="item-name">账户余额</p>
+          <div class="right">
+            <div class="in-detail" @click="ToOtherPage('../withdrawRecord/main')">提现明细 <span class="arrow"></span></div>
+            <div class="add-text">累计收入</div>
+            <div class="add-num">{{UserInfo.stats.grandtotal}}</div>
           </div>
         </div>
-        <div class="ts-str"><p>点击可查看详细信息，账户余额可用于支付抵扣和提现</p></div>
+        <div class="ts-str"><p>点击累计收入金额可查看详细信息，可提现收入可用于支付抵扣和提现</p></div>
       </div>
       <div class="menu-box">
         <div class="menu-list">
@@ -60,7 +65,7 @@
             <p>评价管理</p>
           </div>
           <div class="menu-item">
-            <div class="icon-box sjdl-btn" @click="ToOtherPage('../changeInfo/main')"></div>
+            <div class="icon-box sjdl-btn" ></div>
             <p>资料修改</p>
           </div>
           <div class="menu-item" @click="popShowFunc('helpView')">
@@ -83,13 +88,14 @@
     <!--授权登陆弹框 start-->
     <authorization-pop ref="authorizationPop" @successFunc="AuthorizeSuccess"></authorization-pop>
     <!--授权登陆弹框 end-->
+    <tip-pop ref="tipPop" title="小提示" content="提现成功！可提现收入已转入您的微信账户余额。"></tip-pop>
   </div>
 </template>
-
 <script>
 import helpView from '@/components/help-view'
 import recommendPop from '@/components/recommend-pop'
 import authorizationPop from '@/components/authorization-pop'
+import tipPop from '@/components/tip-pop'
 import SN from '@/config/localstorage.name'
 import * as utils from '@/utils/utils'
 export default {
@@ -104,6 +110,7 @@ export default {
     helpView,
     recommendPop,
     authorizationPop,
+    tipPop,
     isAuthoriza: false
   },
   methods: {
@@ -243,10 +250,33 @@ export default {
             }
           }
         })
-      }).catch(() => {
+      }).catch((data) => {
         wx.hideLoading()
         wx.showToast({
           title: '绑定失败',
+          icon: 'none'
+        })
+      })
+    },
+    // 用户提现（目前是全额提现）
+    withdraw () {
+      const _this = this
+      wx.showLoading({
+        title: '提现发起中'
+      })
+      this.$store.dispatch({
+        type: 'Withdraw',
+        data: {
+          amount: this.UserInfo.balance
+        }
+      }).then(() => {
+        wx.hideLoading()
+        _this.$refs.tipPop.showFunc()
+        _this.GetUserInfo()
+      }).catch((data) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: data.msg,
           icon: 'none'
         })
       })
@@ -335,20 +365,21 @@ export default {
       position: absolute;
       left: 30rpx;
       top: 30rpx;
-      display: flex;
-      align-items: center;
-      &::before{
-        content: '';
-        width: 24rpx;
-        height: 24rpx;
-        background: url('../../../static/image/shopicon.png') no-repeat;
-        background-size: 100% 100%;
-        margin-right: 8rpx;
-      }
-      p{
-        font-size: 24rpx;
-        color: #333333;
-      }
+      background-image: url("../../../static/image/circle_bg.png");
+      background-size: 100% 100%;
+      width: 100rpx;
+      height: 100rpx;
+      padding-top: 20rpx;
+      text-align: center;
+      color: #fff;
+      border-radius: 50%;
+        .top-text{
+          font-size: 18rpx;
+          margin: 0 0 10rpx 0;
+        }
+        .bottom-text{
+          font-size: 22rpx;
+        }
     }
     .to-backstage{
       position: absolute;
@@ -388,41 +419,101 @@ export default {
       }
     }
   }
+  .in-text{
+    font-size: 28rpx;
+    text-align: left;
+    width: 100%;
+    padding: 40rpx 0 20rpx 60rpx;
+  }
   .basic-data-box{
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30rpx 0;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    box-sizing: border-box;
+    margin: 30rpx 0 0 0;
+    padding: 0 30rpx;
     .data-main{
-      width: 100%;
+      background-image : url('../../../static/image/center_bg.png');
+      background-size: 100% 100%;
+      color: #fff;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .data-item{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .item-price{
-          font-size: 32rpx;
-          color: #333333;
-          span{
-            font-size: 22rpx;
-          }
+      font-size: 28rpx;
+      padding: 40rpx;
+      position: relative;
+      .out-btn{
+        position: absolute;
+        width: 195rpx;
+        background-color: #fff;
+        height: 70rpx;
+        border-top-left-radius: 35rpx;
+        border-bottom-left-radius: 35rpx;
+        color:#ff9966 ;
+        font-size: 30rpx;
+        line-height: 70rpx;
+        right: 0;
+        top: 104rpx;
+        .circle{
+          width: 50rpx;
+          height: 50rpx;
+          display: inline-block;
+          border-radius: 50%;
+          color: #fff;
+          line-height: 50rpx;
+          text-align: center;
+          background-color: #ff9966;
+          margin: 10rpx;
         }
-        .item-name{
-          font-size: 24rpx;
-          color: #888888;
+      }
+      .left{
+        width: 50%;
+        flex: 1;
+        .out-num{
+          margin: 44rpx 0 44rpx 0;
+          font-weight: bold;
+          font-size: 64rpx;
+          /*font-weight: bold;*/
+        }
+        .recommend-num{
           margin-top: 24rpx;
         }
       }
+      .right{
+        flex: 1;
+        padding-left: 40rpx;
+        .in-detail{
+          text-align: right;
+          padding-right: 20rpx;
+          .arrow{
+            position: relative;
+            &:after{
+              border: 10rpx solid transparent;
+              border-left: 10rpx solid #fff;
+              width: 0;
+              height: 0;
+              position: absolute;
+              top: 8rpx;
+              left: 16rpx;
+              content: ' ';
+            }
+          }
+        }
+        .add-text{
+          margin-top: 152rpx;
+        }
+        .add-num{
+          margin-top: 24rpx;
+        }
+      }
+
     }
     .ts-str{
-      margin-top: 35rpx;
+      /*margin-top: 35rpx;*/
       font-size: 20rpx;
       color: #bbbbbb;
-      display: flex;
-      align-items: center;
+      /*display: flex;*/
+      text-align: center;
+      /*align-items: center;*/
       &::before{
         content: '';
         width: 18rpx;
@@ -439,6 +530,7 @@ export default {
     flex-direction: column;
     justify-content: flex-end;
     margin-top: 50rpx;
+    margin-bottom: 40rpx;
     .menu-list{
       display: flex;
       flex-wrap: wrap;
@@ -448,6 +540,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        border-top:1px solid #ddd ;
         justify-content: center;
         border-right: 1px solid #dddddd;
         &:nth-child(3n){

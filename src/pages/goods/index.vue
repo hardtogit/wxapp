@@ -43,7 +43,7 @@
         <div class="use-info">
           <div class="list-item">
             <!-- <p>使用时间：2018年8月14日至2019年9月20日</p> -->
-            <p>使用时间：{{GoodsInfo.timedate}}</p>
+            <p>使用时间：{{GoodsInfo.expire}}</p>
           </div>
           <div class="list-item">
             <p>使用流程：</p>
@@ -214,11 +214,11 @@
     <!--授权登陆弹框 start-->
     <authorization-pop ref="authorizationPop" @successFunc="AuthorizeSuccess"></authorization-pop>
     <!--授权登陆弹框 end-->
-    <circle-menu class="circleMenu"
+    <circle-menu class="circleMenu" ref="circleMenu"
                  type="top" :number="4"
                  :btn="true" :circle="true"
                  :btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},
-                 {text:'我也',extend:'要卖',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
+                 {text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
                  ]">
       <!--<a slot="item_1" @click="popShowFunc('shopinfoPop')" class="fa fa-twitter fa-lg" herf="#" >商户信息</a>-->
       <!--<a slot="item_2" @click="popShowFunc('technicalSupportPop')" class="fa fa-weixin fa-lg" herf="#" >技术支持</a>-->
@@ -405,15 +405,20 @@ export default {
         })
       }
     },
-    // 监听页面滚动判断底部menu显示或隐藏
-    WatchScroll (e) {
-      let topDistance = e.target.scrollTop
-      let scrollHeight = e.target.scrollHeight
-      if ((scrollHeight - topDistance - this.ScrollerHeight) < 600) {
-        this.BottomTabShow = true
-      } else {
-        this.BottomTabShow = false
-      }
+    getPost () {
+      const _this = this
+      _this.$store.dispatch({
+        type: 'BuildPoster',
+        data: {
+          postid: 0,
+          gid: _this.GoodsInfo.id,
+          storeid: _this.GoodsInfo.storeInfo.id
+        }
+      }).then(res => {
+        _this.posterPic = res.data.url
+        this.$refs.posterPop.showFunc()
+      }).catch(() => {
+      })
     },
     // 获取屏幕高度
     getSystemInfo () {
@@ -631,6 +636,15 @@ export default {
       }
     }
   },
+  // 滚动时隐藏菜单栏
+  onPageScroll: function (e) {
+    if (this.$refs.circleMenu.open === true) {
+      this.$refs.circleMenu.open = false
+      this.$refs.circleMenu.toggleAnimate = false
+      this.$refs.circleMenu.MaskToggle = false
+    }
+  },
+  // 下拉刷新
   onPullDownRefresh () {
     this.GetGoodsInfo('refresh')
   },
@@ -659,6 +673,7 @@ export default {
       _this.GetUserInfo()
       _this.isAuthoriza = true
     }
+    _this.getPost()
   },
   computed: {
     BannerPics () {
@@ -799,7 +814,7 @@ export default {
   top:40rpx;
   color: #f6f6f6;
   font-size: 22rpx;
-  background-color: #ff6600;
+  background-color: #ff9933;
   width: 180rpx;
   height: 64rpx;
   border-bottom-left-radius: 32rpx;
