@@ -269,7 +269,8 @@ export default {
       posterPic: '',
       commentDetailInfo: null,
       receiveCouponInfo: null,
-      isScroll: true
+      isScroll: true,
+      init: false
     }
   },
   components: {
@@ -416,7 +417,6 @@ export default {
         }
       }).then(res => {
         _this.posterPic = res.data.url
-        this.$refs.posterPop.showFunc()
       }).catch(() => {
       })
     },
@@ -534,6 +534,10 @@ export default {
         let goodsInfo = obj.data
         goodsInfo.storeInfo.detailAddress = goodsInfo.storeInfo.province + goodsInfo.storeInfo.city + goodsInfo.storeInfo.area + goodsInfo.storeInfo.town + goodsInfo.storeInfo.address
         _this.GoodsInfo = goodsInfo
+        if (!_this.init) {
+          _this.getPost()
+          _this.init = true
+        }
         wx.setStorageSync(SN.PayGoodsInfo, goodsInfo)
         wx.setNavigationBarTitle({
           title: _this.GoodsInfo.goodsname
@@ -673,7 +677,6 @@ export default {
       _this.GetUserInfo()
       _this.isAuthoriza = true
     }
-    _this.getPost()
   },
   computed: {
     BannerPics () {
