@@ -225,10 +225,48 @@ export default {
             orderCodes.hasUsedList.push(codeList[i])
           }
         }
+        if (orderCodes.notUsedList.length > 0) {
+          _this.getCodeList()
+        }
         _this.orderCodes = orderCodes
         wx.hideLoading()
       }).catch(() => {
         wx.hideLoading()
+      })
+    },
+    getCodeList () {
+      const _this = this
+      _this.$store.dispatch({
+        type: 'GetOrderCodeList',
+        data: {
+          orderid: _this.orderInfo.id
+        }
+      }).then(obj => {
+        let codeList = obj.data
+        let orderCodes = {
+          notUsedList: [],
+          hasUsedList: []
+        }
+        for (let i = 0; i < codeList.length; i++) {
+          if (codeList[i].status === 0) {
+            codeList[i].isSelected = true
+            orderCodes.notUsedList.push(codeList[i])
+          } else {
+            orderCodes.hasUsedList.push(codeList[i])
+          }
+        }
+        if (orderCodes.notUsedList.length > 0) {
+          setTimeout(() => {
+            _this.getCodeList()
+          }, 1000)
+        } else {
+          wx.showToast({
+            title: '已核销'
+          })
+          _this.tabSelected = 2
+          _this.orderCodes = orderCodes
+        }
+      }).catch(() => {
       })
     },
     getSystemInfo () {

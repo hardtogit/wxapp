@@ -16,7 +16,7 @@ export default {
     pages: [
       'pages/me/main',
       'pages/comment/main',
-      '^pages/goods/main',
+      'pages/goods/main',
       'pages/orderDetail/main',
       'pages/orderList/main',
       'pages/myTeam/main',
@@ -28,7 +28,7 @@ export default {
       'pages/paySuccess/main',
       'pages/createComment/main',
       'pages/news/main',
-      'pages/changeInfo/main',
+      '^pages/changeInfo/main',
       'pages/withdrawRecord/main'
     ],
     window: {

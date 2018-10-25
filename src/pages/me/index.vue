@@ -19,7 +19,7 @@
           <div class="list-item">注册时间：{{regtime}}</div>
         </div>
       </div>
-      <dev class="in-text">我的收入</dev>
+      <p class="in-text">我的收入</p>
       <div class="basic-data-box">
         <div class="data-main">
           <!-- <div class="data-item" @click="ToOtherPage('../reward/main')"> -->
@@ -344,15 +344,15 @@ export default {
   // align-items: center;
   background: #ffffff;
   .container-main-box{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
     background: #ffffff;
   }
   .header-box{
     width: 100%;
     height: 330rpx;
-    background-size: 750rpx 330rpx;
+    background-size: 100% 100%;
     // background: #333333;
     display: flex;
     flex-direction: column;
@@ -360,7 +360,6 @@ export default {
     justify-content: center;
     position: relative;
     background: url('https://cdn.618000.com/wemini/images/20180906105847.jpg') no-repeat;
-    background-size: 100% 100%;
     .to-shop-admin{
       position: absolute;
       left: 30rpx;
@@ -423,7 +422,7 @@ export default {
     font-size: 28rpx;
     text-align: left;
     width: 100%;
-    padding: 40rpx 0 20rpx 60rpx;
+    padding: 30rpx 0 10rpx 30rpx;
   }
   .basic-data-box{
     width: 100%;
