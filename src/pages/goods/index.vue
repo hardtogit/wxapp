@@ -1121,3 +1121,13 @@ export default {
     bottom:10rpx
   }
 </style>
+<style lang="less">
+  .wx-parse-box {
+    image{
+      width: 100%;
+      display: block;
+    }
+
+  }
+
+</style>
