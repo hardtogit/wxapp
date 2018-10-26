@@ -79,3 +79,12 @@ export function Withdraw (data) {
     data
   })
 }
+
+// 上传群二维码
+export function upLoadPqcode (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.USER_API + '/setqrcode',
+    method: 'post',
+    data
+  })
+}

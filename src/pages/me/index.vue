@@ -33,7 +33,7 @@
           <div class="right">
             <div class="in-detail" @click="ToOtherPage('../withdrawRecord/main')">提现明细 <span class="arrow"></span></div>
             <div class="add-text">累计收入</div>
-            <div class="add-num">{{UserInfo.stats.grandtotal}}</div>
+            <div class="add-num" @click="ToOtherPage('../totalRecord/main')">{{UserInfo.stats.grandtotal}}</div>
           </div>
         </div>
         <div class="ts-str"><p>点击累计收入金额可查看详细信息，可提现收入可用于支付抵扣和提现</p></div>
@@ -80,7 +80,7 @@
       </div>
     </div>
     <!--责任申明弹出层 start-->
-    <help-view ref="helpView"></help-view>
+    <help-view ref="helpView" :content="UserInfo.personalhelp"></help-view>
     <!--责任申明弹出层 end-->
     <!--推荐商家弹出层 start-->
     <recommend-pop ref="recommendPop"></recommend-pop>

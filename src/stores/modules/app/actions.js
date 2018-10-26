@@ -4,6 +4,22 @@ import * as PosterApi from '@/api/poster'
 import * as UserApi from '@/api/user'
 import * as OrderApi from '@/api/order'
 import * as config from '@/config/common.config'
+
+const basePromiss = (apiGroup, apiKey, params) => {
+  return new Promise((resolve, reject) => {
+    apiGroup[apiKey](params.data).then(response => {
+      if (response.code === config.StatusCode.Success) {
+        resolve(response)
+      } else {
+        console.log(response)
+        reject(response)
+      }
+    }).catch(error => {
+      console.error(apiKey + ':', error)
+      reject(error)
+    })
+  })
+}
 // import * as config from '@/config/common.config'
 export default {
   Login ({commit}, opt) {
@@ -380,6 +396,9 @@ export default {
       })
     })
   },
+  upLoadPqcode ({commit}, opt) {
+    return basePromiss(UserApi, 'upLoadPqcode', opt)
+  },
   CreateComment ({commit}, opt) {
     return new Promise((resolve, reject) => {
       OrderApi.CreateComment(opt.data).then(response => {
@@ -402,4 +421,5 @@ export default {
       })
     })
   }
+
 }

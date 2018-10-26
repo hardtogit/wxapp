@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "dayjs": "^1.7.7",
     "flyio": "^0.6.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",

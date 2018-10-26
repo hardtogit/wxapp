@@ -14,27 +14,27 @@
                     <div class="close-btn" @click="showFunc"></div>
                   </div>
                   <div class="card-content">
-                    <div class="help-item" v-for="(item, index) in helpList" :key="index" @click="showItemFunc(index)">
-                      <div class="item-title-box">
-                        <p class="title-name">{{item.title}}</p>
-                      </div>
-                      <div class="item-cont" v-if="showItem === index">
-                        <p>{{item.content}}</p>
-                      </div>
-                    </div>
+                     <wxParse :content="content">
+                     </wxParse>
                   </div>
                 </div>
               </div>
-            </div>  
-          <!--弹框内容 end-->  
+            </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import wxParse from 'mpvue-wxparse'
 export default {
-  props: {},
+  props: {
+    content: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       // 弹框基本配置 start
@@ -42,43 +42,7 @@ export default {
       showMask: true,
       // 弹框基本配置 end
       showItem: -1,
-      helpList: [{
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }, {
-        title: '如何成为我们的代理商',
-        content: '在上传面页，点击“添加文件”并选择文件后点击“开始上传”；并出现提示；上传营业执照图片。图片大小会有要求，允许格式：jpg/gif/bmp/png；提示上传成功后，等待工作人员审核。'
-      }]
+      helpList: []
     }
   },
   methods: {
@@ -91,7 +55,9 @@ export default {
       this.showItem = num
     }
   },
-  components: {}
+  components: {
+    wxParse
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -170,7 +136,7 @@ export default {
           .item-cont{
             display: flex;
             flex-direction: column;
-            padding-right: 35rpx; 
+            padding-right: 35rpx;
             margin-top: 15rpx;
             overflow: hidden;
             p{

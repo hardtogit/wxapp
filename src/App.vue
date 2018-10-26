@@ -4,7 +4,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+  @import "./style/app";
 .container {
   height: 100%;
   display: flex;
