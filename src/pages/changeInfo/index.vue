@@ -1,10 +1,17 @@
 <template>
   <div class="container-box">
-    <cell-item :borderBottom="true" rigthText="未上传" :arrow="true"></cell-item>
+    <div class="box">
+    <cell-item :borderBottom="true" leftText="推荐二维码"
+               rightText="未上传" ></cell-item>
+      <cell-item  leftText="绑定手机号"
+                 rightText="未绑定" :handleClick="handleBindMobile" ></cell-item>
+    </div>
+    <bind-mobile ref="bindMobile"></bind-mobile>
   </div>
 </template>
 <script>
 import cellItem from '@/components/cell-item'
+import bindMobile from '@/components/bind-mobile'
 import SN from '@/config/localstorage.name'
 export default {
   data () {
@@ -22,13 +29,18 @@ export default {
         _this.UserInfo = res.data
         wx.setStorageSync(SN.UserInfo, res.data)
       })
+    },
+    handleBindMobile () {
+      console.log('s')
+      this.$refs.bindMobile.showFunc()
     }
   },
   onLoad () {
     this.GetUserInfo()
   },
   components: {
-    cellItem
+    cellItem,
+    bindMobile
   }
 }
 </script>
@@ -39,7 +51,12 @@ export default {
   display: flex;
   flex-direction: column;
   background: #f5f5f5;
-
+  .box{
+    margin-top: 15px;
+    background-color: #fff;
+    padding: 0 12px;
+  }
 }
+
 </style>
 

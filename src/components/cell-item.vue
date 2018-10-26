@@ -1,12 +1,11 @@
 <template>
-  <div :class="{'cell':true,'borderTop':borderTop,'borderBottom':borderBottom}">
+  <div :class="{'cell':true,'borderTop':borderTop,'borderBottom':borderBottom}" @click="handleClick">
     <div class="left">
       <div class="leftText">{{leftText}}</div>
     </div>
     <div class="right">
        <div class="rightText">{{rightText}}</div>   <img v-if="arrow" src="../../static/image/arrow-select.png" class="icon"/>
     </div>
-
   </div>
 </template>
 <script>
@@ -31,6 +30,9 @@ export default {
     borderBottom: {
       type: Boolean,
       default: false
+    },
+    handleClick: {
+      default: () => { }
     }
   },
   data () {
@@ -44,12 +46,13 @@ export default {
   .cell{
     display: flex;
     align-items: center;
-    padding: 12px 0;
+    padding: 16px 0;
+    font-size: 14px;
     &.borderTop{
-      border-top: 1px solid #ddd;
+      border-top: 1rpx solid #ddd;
     }
     &.borderBottom{
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1rpx solid #ddd;
     }
     .left{
       flex: 1;
@@ -61,6 +64,7 @@ export default {
       flex: 1;
       .rightText{
         color: #999;
+        text-align: right;
       }
       .icon{
         width: 24px;
