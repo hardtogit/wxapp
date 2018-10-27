@@ -1124,7 +1124,7 @@ export default {
 <style lang="less">
   .wx-parse-box {
     image{
-      width: 100%;
+      width: 100%!important;
       display: block;
     }
 

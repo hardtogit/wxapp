@@ -1,12 +1,13 @@
 <template>
   <div class="container-box">
     <div class="box">
-    <cell-item :borderBottom="true" leftText="推荐二维码"
-               rightText="未上传" ></cell-item>
-      <cell-item  leftText="绑定手机号"
-                 rightText="未绑定" :handleClick="handleBindMobile" ></cell-item>
+    <cell-item :borderBottom="true" leftText="推荐二维码" iconClass="fa fa-qrcode"
+               :handleClick="()=>ToOtherPage('../codeEdit/main')"
+               rightText="未上传" :rightImage="(UserInfo&&UserInfo.qid)&&UserInfo.qrcode"></cell-item>
+      <cell-item  leftText="绑定手机号" iconClass="fa fa-mobile"
+                 :rightText="UserInfo&&UserInfo.phone||'未绑定'" :handleClick="handleBindMobile" ></cell-item>
     </div>
-    <bind-mobile ref="bindMobile"></bind-mobile>
+    <bind-mobile ref="bindMobile" :callBack="GetUserInfo"></bind-mobile>
   </div>
 </template>
 <script>
@@ -31,11 +32,16 @@ export default {
       })
     },
     handleBindMobile () {
-      console.log('s')
+      if (this.UserInfo.phone) {
+        return
+      }
       this.$refs.bindMobile.showFunc()
+    },
+    ToOtherPage (url) {
+      wx.navigateTo({ url })
     }
   },
-  onLoad () {
+  onShow () {
     this.GetUserInfo()
   },
   components: {

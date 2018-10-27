@@ -22,8 +22,8 @@
                   <button class="submit-btn" @click="SubmitFunc">确认提交</button>
                 </div>
               </div>
-            </div>  
-          <!--弹框内容 end-->  
+            </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
@@ -125,6 +125,9 @@ export default {
           title: '提交成功',
           icon: 'success'
         })
+        if (_this.$attrs.callBack) {
+          _this.$attrs.callBack()
+        }
         _this.$emit('BindmobileSuccess', res.data.uid, res.data.phone)
         _this.popShow = false
       })

@@ -84,6 +84,10 @@ export default {
           this.timeout = ''
           this.picUrl = ''
         }
+      } else {
+        this.aid = 0
+        this.timeout = ''
+        this.picUrl = ''
       }
       this.useMyCode = !this.useMyCode
     },
@@ -164,7 +168,10 @@ export default {
         wx.hideLoading({complete: () => {
           wx.showToast({
             title: '设置成功',
-            duration: 2000
+            duration: 2000,
+            complete: () => {
+              wx.navigateBack()
+            }
           })
         }})
       }).catch(() => {

@@ -64,7 +64,7 @@
             <div class="icon-box pjgl-btn"></div>
             <p>评价管理</p>
           </div>
-          <div class="menu-item">
+          <div class="menu-item" @click="ToOtherPage('../changeInfo/main')">
             <div class="icon-box sjdl-btn" ></div>
             <p>资料修改</p>
           </div>
@@ -80,7 +80,7 @@
       </div>
     </div>
     <!--责任申明弹出层 start-->
-    <help-view ref="helpView" :content="UserInfo.personalhelp"></help-view>
+    <help-view ref="helpView" :content="UserInfo&&UserInfo.personalhelp"></help-view>
     <!--责任申明弹出层 end-->
     <!--推荐商家弹出层 start-->
     <recommend-pop ref="recommendPop"></recommend-pop>
