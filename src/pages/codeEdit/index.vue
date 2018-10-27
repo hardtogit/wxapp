@@ -3,7 +3,7 @@
     <div class="switch">
       <div class="left">使用官方群二维码 </div>
       <div class="right">
-        <switch :checked="!useMyCode" color="#ab9985"  @change="switchChange"/>
+        <switch :disabled="!UserInfo.cansetqrcode" :checked="!useMyCode" color="#ab9985"  @change="switchChange"/>
       </div>
     </div>
     <p class="my-tip">成功分销三个订单即可成为分享达人,系统自动开放群管理功能,自动推荐附近的人加群,主动分享的用户同时显示该群码</p>
@@ -43,7 +43,7 @@ import SN from '@/config/localstorage.name'
 export default {
   data () {
     return {
-      UserInfo: null,
+      UserInfo: {},
       useMyCode: false,
       timeout: '',
       picPath: '',
@@ -159,9 +159,12 @@ export default {
           return
         }
       }
+      if (!this.UserInfo.cansetqrcode) {
+        return
+      }
       wx.showLoading({title: '处理中'})
       this.$store.dispatch({
-        type: 'upLoadPqcode',
+        type: 'UpLoadPqcode',
         data: {aid: this.aid, timeout: this.timeout}
       }
       ).then(() => {

@@ -151,3 +151,11 @@ export default {
   }
 }
 </style>
+<style lang="less">
+  .card-content{
+    image{
+    width: 100%!important;
+      display: block;
+     }
+  }
+</style>

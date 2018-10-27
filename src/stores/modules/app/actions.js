@@ -396,8 +396,11 @@ export default {
       })
     })
   },
-  upLoadPqcode ({commit}, opt) {
+  UpLoadPqcode ({commit}, opt) {
     return basePromiss(UserApi, 'upLoadPqcode', opt)
+  },
+  GetAwardhistory ({commit}, opt) {
+    return basePromiss(UserApi, 'getAwardhistory', opt)
   },
   CreateComment ({commit}, opt) {
     return new Promise((resolve, reject) => {

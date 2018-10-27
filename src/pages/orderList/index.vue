@@ -26,12 +26,12 @@
       </div>
     </div>
     <div class="scroller-container" :style="{height: WinHeight + 'px'}">
-      <scroll-view 
-        :scroll-y="true" 
-        class="scroller-box" 
-        :upper-threshold="-30" 
-        :lower-threshold="50"  
-        @scrolltoupper="scrolltoupper" 
+      <scroll-view
+        :scroll-y="true"
+        class="scroller-box"
+        :upper-threshold="-30"
+        :lower-threshold="50"
+        @scrolltoupper="scrolltoupper"
         @scrolltolower="scrolltolower"
         :style="{height: WinHeight + 'px'}"
         v-if="orderList.data && orderList.data.length > 0">
@@ -172,7 +172,12 @@ export default {
       })
     }
   },
-  onLoad () {
+  onLoad (option) {
+    this.queryObj = option
+    if (this.queryObj && this.queryObj.entryType && this.queryObj.entryType === 'completed') {
+      this.selectedTab = 2
+      this.orderStatus = 'completed'
+    }
     this.getSystemInfo()
     this.GetOrderList(config.DefaultPage.Page, config.LoadType.DOWN)
   },

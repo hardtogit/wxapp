@@ -61,7 +61,7 @@
             <!--<p>团队用户</p>-->
           <!--</div>-->
           <div class="menu-item">
-            <div class="icon-box pjgl-btn"></div>
+            <div class="icon-box pjgl-btn" @click="viewEvaluate"></div>
             <p>评价管理</p>
           </div>
           <div class="menu-item" @click="ToOtherPage('../changeInfo/main')">
@@ -72,7 +72,7 @@
             <div class="icon-box xtbz-btn"></div>
             <p>系统帮助</p>
           </div>
-          <div class="menu-item" @click="popShowFunc('recommendPop')">
+          <div class="menu-item" @click="popShowFunc('becomeBusinessPop')">
             <div class="icon-box tjsh-btn"></div>
             <p>推荐商户</p>
           </div>
@@ -83,7 +83,7 @@
     <help-view ref="helpView" :content="UserInfo&&UserInfo.personalhelp"></help-view>
     <!--责任申明弹出层 end-->
     <!--推荐商家弹出层 start-->
-    <recommend-pop ref="recommendPop"></recommend-pop>
+    <become-business-pop ref="becomeBusinessPop"></become-business-pop>
     <!--推荐商家弹出层 end-->
     <!--授权登陆弹框 start-->
     <authorization-pop ref="authorizationPop" @successFunc="AuthorizeSuccess"></authorization-pop>
@@ -93,7 +93,7 @@
 </template>
 <script>
 import helpView from '@/components/help-view'
-import recommendPop from '@/components/recommend-pop'
+import becomeBusinessPop from '@/components/become-business-pop'
 import authorizationPop from '@/components/authorization-pop'
 import tipPop from '@/components/tip-pop'
 import SN from '@/config/localstorage.name'
@@ -108,7 +108,7 @@ export default {
   },
   components: {
     helpView,
-    recommendPop,
+    becomeBusinessPop,
     authorizationPop,
     tipPop,
     isAuthoriza: false
@@ -133,8 +133,8 @@ export default {
         case 'dutyDeclarPop':
           this.$refs.dutyDeclarPop.showFunc()
           break
-        case 'recommendPop':
-          this.$refs.recommendPop.showFunc()
+        case 'becomeBusinessPop':
+          this.$refs.becomeBusinessPop.showFunc()
           break
       }
     },
@@ -280,6 +280,10 @@ export default {
           icon: 'none'
         })
       })
+    },
+    viewEvaluate () {
+      const url = '../orderList/main?entryType=completed'
+      wx.navigateTo({ url })
     }
   },
   onLoad (option) {

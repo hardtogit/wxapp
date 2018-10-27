@@ -88,3 +88,12 @@ export function upLoadPqcode (data) {
     data
   })
 }
+
+// 获得奖励明细
+export function getAwardhistory (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.USER_API + '/awardhistory',
+    method: 'post',
+    data
+  })
+}

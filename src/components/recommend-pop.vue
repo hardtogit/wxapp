@@ -25,14 +25,14 @@
                     <p class="item-name">经营类别</p>
                     <input type="text" class="input-text" placeholder="填写商家经营商品类别">
                   </div>
-                  <div class="prompt">
-                    <p>所有成功推荐的商户当月销售额达到20万元，您自己的商户次月软件服务费提成比例下降1%</p>
-                  </div>
+                  <!--<div class="prompt">-->
+                    <!--<p>所有成功推荐的商户当月销售额达到20万元，您自己的商户次月软件服务费提成比例下降1%</p>-->
+                  <!--</div>-->
                   <button class="submit-btn">确认提交</button>
                 </div>
               </div>
-            </div>  
-          <!--弹框内容 end-->  
+            </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
