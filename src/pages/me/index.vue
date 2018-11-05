@@ -60,8 +60,8 @@
             <!--<div class="icon-box tdyh-btn"></div>-->
             <!--<p>团队用户</p>-->
           <!--</div>-->
-          <div class="menu-item">
-            <div class="icon-box pjgl-btn" @click="viewEvaluate"></div>
+          <div class="menu-item" @click="viewEvaluate">
+            <div class="icon-box pjgl-btn" ></div>
             <p>评价管理</p>
           </div>
           <div class="menu-item" @click="ToOtherPage('../changeInfo/main')">
