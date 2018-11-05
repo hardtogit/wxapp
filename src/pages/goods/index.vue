@@ -462,6 +462,7 @@ export default {
         case 'buyNowPop':
           if (_this.isAuthoriza) {
             _this.$refs.buyNowPop.Initial()
+            _this.Login()
             _this.$refs.buyNowPop.showFunc()
           } else {
             _this.AuthorizationPrompt()
@@ -582,7 +583,7 @@ export default {
     },
     // 获取用户基本信息
     GetUserInfo () {
-      this.dispatch({
+      this.$store.dispatch({
         type: 'GetUserInfo'
       })
     },

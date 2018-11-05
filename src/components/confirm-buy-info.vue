@@ -29,8 +29,8 @@
                   <div class="mode-choose-box" v-for='(ProductItem, n) in goodsInfo.attrid' :key="n">
                     <p class="mode-title">{{ProductItem.name}}</p>
                     <div class="mode-list">
-                      <div class="item-default" 
-                        v-for='(oItem, index) in ProductItem.item' 
+                      <div class="item-default"
+                        v-for='(oItem, index) in ProductItem.item'
                         :key="index"
                         @click='specificationBtn(oItem.name,n,$event,index)'
                         :class="[oItem.isShow?'':'none-active',subIndex[n] == index?'selected':'']">
@@ -89,8 +89,8 @@
                 <div class="pay-now-btn" @click="PayNow">立即支付</div>
               </div>
             </div>
-          </div> 
-          <!--弹框内容 end-->  
+          </div>
+          <!--弹框内容 end-->
         </div>
       </div>
     </div>
@@ -157,6 +157,7 @@ export default {
     },
     // 点击绑定手机事件
     Bindmobilebyauth (e) {
+      console.log(e)
       const _this = this
       let eDetail = e.mp.detail
       if (eDetail.encryptedData && eDetail.iv) {

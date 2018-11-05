@@ -7,6 +7,7 @@
       <cell-item  leftText="绑定手机号" iconClass="fa fa-mobile"
                  :rightText="UserInfo&&UserInfo.phone||'未绑定'" :handleClick="handleBindMobile" ></cell-item>
     </div>
+    <button class="btn" open-type="getPhoneNumber"></button>
     <bind-mobile ref="bindMobile" :callBack="GetUserInfo"></bind-mobile>
   </div>
 </template>
