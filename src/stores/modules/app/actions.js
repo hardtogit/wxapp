@@ -1,4 +1,4 @@
-// import * as types from '../../types'
+import * as types from '../../types'
 import * as GlobalsApi from '@/api/globals'
 import * as PosterApi from '@/api/poster'
 import * as UserApi from '@/api/user'
@@ -57,6 +57,7 @@ export default {
     return new Promise((resolve, reject) => {
       UserApi.GetUserInfo().then(response => {
         if (response.code === config.StatusCode.Success) {
+          commit(types.USER_INFO, response.data)
           resolve(response)
         } else {
           reject(response)

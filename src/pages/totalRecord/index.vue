@@ -34,11 +34,9 @@
 <script>
 import * as config from '@/config/common.config'
 import Nothing from '@/components/nothing'
-import SN from '@/config/localstorage.name'
 export default {
   data () {
     return {
-      UserInfo: null,
       activeItem: 1,
       list: {
         current_page: 1,
@@ -48,16 +46,15 @@ export default {
       }
     }
   },
+  computed: {
+    UserInfo () {
+      return this.$store.state.app.UserInfo
+    }
+  },
   methods: {
     // 获取用户基本信息
     GetUserInfo () {
-      const _this = this
-      _this.$store.dispatch({
-        type: 'GetUserInfo'
-      }).then(res => {
-        _this.UserInfo = res.data
-        wx.setStorageSync(SN.UserInfo, res.data)
-      })
+      this.$store.dispatch({type: 'GetUserInfo'})
     },
     // 刷新页面
     onRefresh () {

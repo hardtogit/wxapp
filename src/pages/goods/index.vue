@@ -582,11 +582,8 @@ export default {
     },
     // 获取用户基本信息
     GetUserInfo () {
-      const _this = this
-      _this.$store.dispatch({
+      this.dispatch({
         type: 'GetUserInfo'
-      }).then(res => {
-        wx.setStorageSync(SN.UserInfo, res.data)
       })
     },
     // 领取优惠券
@@ -687,6 +684,9 @@ export default {
         }
       }
       return picList
+    },
+    UserInfo () {
+      return this.$store.state.app.UserInfo
     }
   }
 }

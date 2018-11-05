@@ -2,7 +2,7 @@ import mutations from './mutations'
 import actions from './actions'
 const App = {
   state: {
-    count: 0
+    UserInfo: null
   },
   mutations,
   actions

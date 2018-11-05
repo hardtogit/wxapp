@@ -92,6 +92,7 @@
   </div>
 </template>
 <script>
+
 import helpView from '@/components/help-view'
 import becomeBusinessPop from '@/components/become-business-pop'
 import authorizationPop from '@/components/authorization-pop'
@@ -101,9 +102,21 @@ import * as utils from '@/utils/utils'
 export default {
   data () {
     return {
-      UserInfo: null,
+      // UserInfo: null,
       queryObj: null,
       optionObj: null
+    }
+  },
+  computed: {
+    regtime () {
+      let time = '0000-00-00'
+      if (this.UserInfo && this.UserInfo.regtime) {
+        time = this.UserInfo.regtime.slice(0, 10)
+      }
+      return time
+    },
+    UserInfo () {
+      return this.$store.state.app.UserInfo
     }
   },
   components: {
@@ -201,13 +214,16 @@ export default {
     },
     // 获取用户基本信息
     GetUserInfo () {
-      const _this = this
-      _this.$store.dispatch({
+      this.$store.dispatch({
         type: 'GetUserInfo'
-      }).then(res => {
-        _this.UserInfo = res.data
-        wx.setStorageSync(SN.UserInfo, res.data)
       })
+      // const _this = this
+      // _this.$store.dispatch({
+      //   type: 'GetUserInfo'
+      // }).then(res => {
+      //   _this.UserInfo = res.data
+      //
+      // })
     },
     // 商家扫码绑定后台
     ScanCodeFunc () {
@@ -288,6 +304,7 @@ export default {
   },
   onLoad (option) {
     const _this = this
+    console.log(this.$store)
     _this.optionObj = option
     if (option && option.scene) {
       let scene = decodeURIComponent(option.scene)
@@ -325,15 +342,6 @@ export default {
         _this.GetUserInfo()
         _this.isAuthoriza = true
       }
-    }
-  },
-  computed: {
-    regtime () {
-      let time = '0000-00-00'
-      if (this.UserInfo && this.UserInfo.regtime) {
-        time = this.UserInfo.regtime.slice(0, 10)
-      }
-      return time
     }
   }
 }
