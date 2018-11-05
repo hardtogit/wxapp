@@ -81,7 +81,7 @@ export function Withdraw (data) {
 }
 
 // 上传群二维码
-export function upLoadPqcode (data) {
+export function UpLoadPqcode (data) {
   return Fly.Request({
     url: COMMON_CONFIG.USER_API + '/setqrcode',
     method: 'post',
@@ -90,7 +90,7 @@ export function upLoadPqcode (data) {
 }
 
 // 获得奖励明细
-export function getAwardhistory (data) {
+export function GetAwardhistory (data) {
   return Fly.Request({
     url: COMMON_CONFIG.USER_API + '/awardhistory',
     method: 'post',

@@ -1,4 +1,4 @@
-import * as types from '../../types'
+// import * as types from '../../types'
 import * as GlobalsApi from '@/api/globals'
 import * as PosterApi from '@/api/poster'
 import * as UserApi from '@/api/user'
@@ -23,153 +23,36 @@ const basePromiss = (apiGroup, apiKey, params) => {
 // import * as config from '@/config/common.config'
 export default {
   Login ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.Login(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-        //   // commit(types.SetCosmeClassList, {Data: response.Data})
-          commit(types.Login, {})
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[Login]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'Login', opt)
   },
   Getkeypass ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.Getkeypass(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[Getkeypass]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'Getkeypass', opt)
   },
   ApplyBecomeMerchant ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.ApplyBecomeMerchant(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[ApplyBecomeMerchant]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'ApplyBecomeMerchant', opt)
   },
   SendSecurityCode ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.SendSecurityCode(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[SendSecurityCode]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'SendSecurityCode', opt)
   },
   GetRecommendGoods ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.GetRecommendGoods(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetRecommendGoods]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'GetRecommendGoods', opt)
   },
   SynchroData ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.Basic(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          console.log(response)
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[Login]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'Basic', opt)
   },
   GetGoodsById ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.GetGoodsById(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetGoodsById]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'GetGoodsById', opt)
   },
   GetStoreInfoById ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.GetStoreInfoById(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetGoodsById]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'GetStoreInfoById', opt)
   },
   GetCommentList ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.GetCommentList(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetCommentList]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'GetCommentList', opt)
   },
   BuildPoster ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      PosterApi.Build(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[BuildPoster]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(PosterApi, 'Build', opt)
   },
+  // TODO 公用使用vuex管理.避免改动太大
   GetUserInfo ({commit}, opt) {
     return new Promise((resolve, reject) => {
       UserApi.GetUserInfo().then(response => {
@@ -185,61 +68,18 @@ export default {
     })
   },
   GetFinanceDetail ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.GetFinanceDetail(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetFinanceDetail]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'GetFinanceDetail', opt)
   },
   GetSalesRecord ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.GetSalesRecord(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetSalesRecord]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'GetSalesRecord', opt)
   },
   ReceiveCoupon ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.ReceiveCoupon(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[ReceiveCoupon]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'ReceiveCoupon', opt)
   },
   GetCouponList ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.GetCouponList(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetCouponList]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'GetCouponList', opt)
   },
+  // Todo 有业务逻辑，暂不改动
   SubmitCommonOrder ({commit}, opt) {
     return new Promise((resolve, reject) => {
       OrderApi.SubmitCommonOrder(opt.data).then(response => {
@@ -263,88 +103,22 @@ export default {
     })
   },
   GetOrderList ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      OrderApi.GetOrderList(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetOrderList]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(OrderApi, 'GetOrderList', opt)
   },
   GetOrderDetail ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      OrderApi.GetOrderDetail(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetOrderDetail]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(OrderApi, 'GetOrderDetail', opt)
   },
   GetOrderCodeList ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      OrderApi.GetOrderCodeList(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetOrderCodeList]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(OrderApi, 'GetOrderCodeList', opt)
   },
   CreateEncryptCode ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      OrderApi.CreateEncryptCode(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetOrderCodeList]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(OrderApi, 'CreateEncryptCode', opt)
   },
   GetCommentatorBoughtGoods ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      GlobalsApi.GetCommentatorBoughtGoods(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetCommentatorBoughtGoods]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(GlobalsApi, 'GetCommentatorBoughtGoods', opt)
   },
   Bindmobilebyauth ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.Bindmobilebyauth(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[Bindmobilebyauth]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'Bindmobilebyauth', opt)
   },
   Bindmobile ({commit}, opt) {
     return new Promise((resolve, reject) => {
@@ -369,38 +143,16 @@ export default {
     })
   },
   GetWithdrawRecord ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.GetWithdrawRecord(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[GetWithdrawRecord]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'GetWithdrawRecord', opt)
   },
   Withdraw ({commit}, opt) {
-    return new Promise((resolve, reject) => {
-      UserApi.Withdraw(opt.data).then(response => {
-        if (response.code === config.StatusCode.Success) {
-          resolve(response)
-        } else {
-          reject(response)
-        }
-      }).catch(error => {
-        console.error('[Withdraw]: \n', error)
-        reject(error)
-      })
-    })
+    return basePromiss(UserApi, 'Withdraw', opt)
   },
   UpLoadPqcode ({commit}, opt) {
-    return basePromiss(UserApi, 'upLoadPqcode', opt)
+    return basePromiss(UserApi, 'UpLoadPqcode', opt)
   },
   GetAwardhistory ({commit}, opt) {
-    return basePromiss(UserApi, 'getAwardhistory', opt)
+    return basePromiss(UserApi, 'GetAwardhistory', opt)
   },
   CreateComment ({commit}, opt) {
     return new Promise((resolve, reject) => {
