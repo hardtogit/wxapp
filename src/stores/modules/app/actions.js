@@ -5,10 +5,13 @@ import * as UserApi from '@/api/user'
 import * as OrderApi from '@/api/order'
 import * as config from '@/config/common.config'
 
-const basePromiss = (apiGroup, apiKey, params) => {
+const basePromiss = (apiGroup, apiKey, params, commit, key) => {
   return new Promise((resolve, reject) => {
     apiGroup[apiKey](params.data).then(response => {
       if (response.code === config.StatusCode.Success) {
+        if (commit) {
+          commit(key, response.data)
+        }
         resolve(response)
       } else {
         console.log(response)
@@ -41,7 +44,7 @@ export default {
     return basePromiss(GlobalsApi, 'Basic', opt)
   },
   GetGoodsById ({commit}, opt) {
-    return basePromiss(GlobalsApi, 'GetGoodsById', opt)
+    return basePromiss(GlobalsApi, 'GetGoodsById', opt, commit, types.GOODS_INFO)
   },
   GetStoreInfoById ({commit}, opt) {
     return basePromiss(GlobalsApi, 'GetStoreInfoById', opt)

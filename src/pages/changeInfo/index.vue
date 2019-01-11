@@ -5,15 +5,16 @@
                :handleClick="()=>ToOtherPage('../codeEdit/main')"
                rightText="未上传" :rightImage="(UserInfo&&UserInfo.qid)&&UserInfo.qrcode"></cell-item>
       <cell-item  leftText="绑定手机号" iconClass="fa fa-mobile"
-                 :rightText="UserInfo&&UserInfo.phone||'未绑定'" :handleClick="handleBindMobile" ></cell-item>
+                 :rightText="UserInfo&&UserInfo.phone||'未绑定'" ></cell-item>
+      <button v-if="UserInfo&&!UserInfo.phone" class="bindBtn" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth">绑定手机号</button>
     </div>
-    <button class="btn" open-type="getPhoneNumber"></button>
     <bind-mobile ref="bindMobile" :callBack="GetUserInfo"></bind-mobile>
   </div>
 </template>
 <script>
 import cellItem from '@/components/cell-item'
 import bindMobile from '@/components/bind-mobile'
+import {reLogin} from '@/utils/utils'
 import SN from '@/config/localstorage.name'
 export default {
   data () {
@@ -30,6 +31,40 @@ export default {
       }).then(res => {
         _this.UserInfo = res.data
         wx.setStorageSync(SN.UserInfo, res.data)
+      })
+    },
+    Bindmobilebyauth (e) {
+      const _this = this
+      let eDetail = e.mp.detail
+      reLogin().then(() => {
+        if (eDetail.encryptedData && eDetail.iv) {
+          wx.showLoading({
+            title: '手机绑定中'
+          })
+          _this.$store.dispatch({
+            type: 'Bindmobilebyauth',
+            data: {
+              session_key: wx.getStorageSync(SN.Auth).session_key,
+              iv: e.mp.detail.iv,
+              encryptedData: e.mp.detail.encryptedData
+            }
+          }).then(res => {
+            _this.GetUserInfo()
+            wx.hideLoading()
+            wx.showToast({
+              title: '手机绑定成功',
+              icon: 'success'
+            })
+          }).catch(() => {
+            wx.hideLoading()
+            wx.showToast({
+              title: '手机绑定失败',
+              icon: 'none'
+            })
+          })
+        } else {
+          _this.handleBindMobile()
+        }
       })
     },
     handleBindMobile () {
@@ -62,6 +97,13 @@ export default {
     margin-top: 15px;
     background-color: #fff;
     padding: 0 12px;
+    position: relative;
+    .bindBtn{
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+    }
   }
 }
 

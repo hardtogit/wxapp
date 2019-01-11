@@ -50,7 +50,7 @@
                 <div class="commom-li" v-if="userInfo.uid === 0">
                   <p class="title-name">手机号</p>
                   <div class="bdsjh-box" v-if="userInfo.uid !== 0">{{userInfo.phone}}</div>
-                  <button class="bdsjh-box" v-if="userInfo.uid === 0" :plain="true" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth">点击获取微信绑定手机号</button>
+                  <button class="bdsjh-box" v-if="userInfo.uid === 0" :plain="true" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth">点击获取手机号</button>
                   <!-- <button class="bdsjh-box" v-if="userInfo.uid === 0" :plain="true" @click="BindmobileFunc">点击获取微信绑定手机号</button> -->
                 </div>
                 <!-- <div class="commom-li">
@@ -229,6 +229,14 @@ export default {
     },
     // 购买事件
     PayNow () {
+      if (this.userInfo.uid === 0) {
+        wx.showModal({
+          title: '安全提示',
+          content: '请先绑定手机号,点击字体"点击获取手机号"即可进行绑定',
+          showCancel: false
+        })
+        return
+      }
       const _this = this
       for (let i = 0; i < _this.goodsInfo.attribute - 1; i++) {
         if (_this.selectArr[i] === '' || !_this.selectArr[i]) {
@@ -528,12 +536,13 @@ export default {
           overflow: hidden;
         }
         .name{
+          font-size: 32rpx;
+          color: #2F2F2F;
           width: 350rpx;
           height: 75rpx;
           overflow: hidden;
-          font-size: 26rpx;
           line-height: 36rpx;
-          color: #333333;
+          font-weight: bold;
         }
         .pro-num{
           font-size: 22rpx;
@@ -606,7 +615,7 @@ export default {
             align-items: center;
             flex-wrap: wrap;
             .item-default{
-              margin-left: 20rpx;
+              margin-right: 20rpx;
               height: 45rpx;
               padding: 0 34rpx;
               line-height: 43rpx;
@@ -641,7 +650,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         .title-name{
-          font-size: 24rpx;
+          font-size: 28rpx;
           color: #333333;
         }
         .number-input-box{
@@ -679,7 +688,7 @@ export default {
           text-align: left;
           height: 30rpx;
           line-height: 30rpx;
-          font-size: 24rpx;
+          font-size: 28rpx;
           color: #ab9985;
           flex: 0 0 500rpx;
         }

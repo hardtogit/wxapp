@@ -19,7 +19,7 @@
       <!-- 图片轮播 end -->
       <!-- 生成海报 start -->
        <div class="creatPost" @click="BuildPoster()">
-          生成分享海报
+          生成海报
        </div>
       <!-- 生成海报 end -->
       <!-- 商品信息 start -->
@@ -33,11 +33,20 @@
             <div class="info-bottom-left">
               <text class="discount-price">¥{{GoodsInfo.sellprice}}</text>
               <text class="original-price">￥{{GoodsInfo.marketprice}}</text>
-              <div class="pro-number">
-                <p>剩{{GoodsInfo.stock}}份</p>
-              </div>
             </div>
-            <p class="sales-volume">销量: {{GoodsInfo.sales}}</p>
+              <!--<div class="pro-number">-->
+                <!--<p>剩{{GoodsInfo.stock}}份</p>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<p class="sales-volume">销量: {{GoodsInfo.sales}}</p>-->
+          </div>
+          <div class="sale-bar">
+            <div class="saled" :style="'width:'+100*GoodsInfo.sales/(GoodsInfo.stock+GoodsInfo.sales)+'%'">
+                已售{{GoodsInfo.sales}}
+            </div>
+            <span class="level">
+            还剩{{GoodsInfo.stock}}份
+              </span>
           </div>
         </div>
         <div class="use-info">
@@ -46,9 +55,9 @@
             <p>使用时间：{{GoodsInfo.expire}}</p>
           </div>
           <div class="list-item">
-            <p>使用流程：</p>
+            <p>使用流程：</p><div class="process-img"></div>
           </div>
-          <div class="process-img"></div>
+
         </div>
       </div>
       <!-- 商品信息 end -->
@@ -75,14 +84,15 @@
             </div>
           </div>
           <div class="top-right">
-            <div class="map-icon" @click="navigationFunc()"></div>
+            <!--<div class="map-icon" @click="navigationFunc()"></div>-->
             <!-- <div class="phone-icon" @click="callPhone(GoodsInfo.storeInfo.storephone)"></div> -->
             <div class="phone-icon" @click="popShowFunc('phoneView')"></div>
           </div>
         </div>
-        <div class="shopinfo-bottom">
-          <p class="path-str">地址：{{GoodsInfo.storeInfo.detailAddress}}</p>
-          <div class="wx-icon"></div>
+        <div class="shopinfo-bottom" @click="navigationFunc()">
+          <p class="path-str"><span class="fa fa-map-marker"></span>地址：{{GoodsInfo.storeInfo.detailAddress}}
+            <span class="fa fa-angle-right"></span>
+          </p>
         </div>
       </div>
       <!-- 商铺信息 end -->
@@ -462,44 +472,15 @@ export default {
         case 'buyNowPop':
           if (_this.isAuthoriza) {
             _this.$refs.buyNowPop.Initial()
-            _this.Login()
+            // _this.Login()
+            utils.reLogin()
             _this.$refs.buyNowPop.showFunc()
           } else {
             _this.AuthorizationPrompt()
           }
           break
-        case 'dutyDeclarPop':
-          this.$refs.dutyDeclarPop.showFunc()
-          break
-        case 'sharePopView':
-          this.$refs.sharePopView.showFunc()
-          break
-        case 'shopSubscriptionPop':
-          this.$refs.shopSubscriptionPop.showFunc()
-          break
-        case 'shopinfoPop':
-          this.$refs.shopinfoPop.showFunc()
-          break
-        case 'technicalSupportPop':
-          this.$refs.technicalSupportPop.showFunc()
-          break
-        case 'becomeBusinessPop':
-          this.$refs.becomeBusinessPop.showFunc()
-          break
-        case 'contractPop':
-          this.$refs.contractPop.showFunc()
-          break
-        case 'commentPop':
-          this.$refs.commentPop.showFunc()
-          break
-        case 'phoneView':
-          this.$refs.phoneView.showFunc()
-          break
-        case 'bindMobile':
-          this.$refs.bindMobile.showFunc()
-          break
-        case 'authorizationPop':
-          this.$refs.authorizationPop.showFunc()
+        default:
+          this.$refs[type].showFunc()
           break
       }
     },
@@ -524,7 +505,7 @@ export default {
           title: '数据加载中'
         })
       }
-      let goodsId = _this.queryObj && _this.queryObj.gid ? _this.queryObj.gid : '9'
+      let goodsId = _this.queryObj && _this.queryObj.gid ? _this.queryObj.gid : '27'
       _this.$store.dispatch({
         type: 'GetGoodsById',
         data: {
@@ -532,6 +513,7 @@ export default {
           fromuid: _this.queryObj && _this.queryObj.fromwid ? _this.queryObj.fromwid : 0
         }
       }).then(obj => {
+        console.log(obj.data)
         let goodsInfo = obj.data
         goodsInfo.storeInfo.detailAddress = goodsInfo.storeInfo.province + goodsInfo.storeInfo.city + goodsInfo.storeInfo.area + goodsInfo.storeInfo.town + goodsInfo.storeInfo.address
         _this.GoodsInfo = goodsInfo
@@ -697,27 +679,28 @@ export default {
 @import '../../../static/style/reset';
 .product-info-card{
   width: 100%;
-  background: #ffffff;
-  padding: 0 30rpx;
+  /*background: #ffffff;*/
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #ebebeb;
   .basic-info{
     flex: 1;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 25rpx 0 30rpx 0;
-    border-bottom: 1rpx solid #ebebeb;
+    padding: 25rpx 30rpx 30rpx 30rpx;
+    margin-bottom: 20rpx;
     .info-top{
       display: flex;
       align-items: center;
       justify-content: space-between;
       .pro-name{
         width: 480rpx;
-        font-size: 30rpx;
+        font-size: 32rpx;
         line-height: 40rpx;
-        color: #333333;
+        color: #2F2F2F;
         letter-spacing: 0;
+        font-weight: bold;
       }
       .share-icon{
         width: 60rpx;
@@ -775,6 +758,37 @@ export default {
         color: #999999;
       }
     }
+    .sale-bar{
+      width: 500rpx;
+      height: 28rpx;
+      border-radius: 14rpx;
+      background-color: rgba(252,197,48,.2);
+      margin-top: 15rpx;
+      position: relative;
+      font-size: 20rpx;
+      line-height: 28rpx;
+      text-align: right;
+      padding-right: 10rpx;
+      color: #666;
+      .saled{
+        position: absolute;
+        white-space: nowrap;
+        left: 0;
+        top:0;
+        border-radius: 14rpx;
+        height: 28rpx;
+        background-color: #FCC530;
+        font-size: 20rpx;
+        color: #666;
+        text-align: left;
+        line-height: 28rpx;
+        padding-left: 10rpx;
+      }
+      .level{
+        position: relative;
+        z-index: 2;
+      }
+    }
   }
   .shireContainer{
     margin-top: 20rpx;
@@ -783,9 +797,11 @@ export default {
     }
   }
   .use-info{
-    padding: 20rpx 0;
+    padding: 20rpx 30rpx 0 30rpx;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20rpx;
     .list-item{
       display: flex;
       align-items: center;
@@ -798,14 +814,18 @@ export default {
         background-size: 100% 100%;
         margin-right: 6rpx;
       }
+      &:first-child{
+        padding-bottom: 20rpx;
+        border-bottom: 1rpx solid #ededed;
+      }
       p{
-        font-size: 22rpx;
+        font-size: 24rpx;
         color: #333333;
       }
     }
     .process-img{
-      width: 560rpx;
-      height: 83rpx;
+      width: 520rpx;
+      height: 80rpx;
       align-self: center;
       background: url('../../../static/image/buy_icon.png') no-repeat;
       background-size: 100% 100%;
@@ -819,11 +839,11 @@ export default {
   color: #f6f6f6;
   font-size: 22rpx;
   background-color: #ff9933;
-  width: 180rpx;
-  height: 64rpx;
+  width: 137rpx;
+  height: 48rpx;
   border-bottom-left-radius: 32rpx;
   border-top-left-radius: 32rpx;
-  line-height: 64rpx;
+  line-height: 48rpx;
   text-align: center;
 }
 .shop-authentication-card{
@@ -926,7 +946,7 @@ export default {
             }
             .comment-number{
               margin-left: 16rpx;
-              font-size: 20rpx;
+              font-size: 24rpx;
               color: #ab9985;
             }
           }
@@ -952,12 +972,18 @@ export default {
     }
     .shopinfo-bottom{
       padding: 22rpx 0;
-      display: flex;
+      /*display: flex;*/
       align-items: center;
       justify-content: space-between;
       .path-str{
-        font-size: 24rpx;
+        font-size: 28rpx;
         color: #999999;
+        .fa-map-marker{
+          margin-right: 10rpx;
+        }
+        .fa-angle-right{
+          float: right;
+        }
       }
       .wx-icon{
         width: 48rpx;
@@ -1009,6 +1035,7 @@ export default {
       .wx-parse-box{
         width: 690rpx;
         overflow: hidden;
+        color: #666;
       }
     }
     .home-comment-list{
@@ -1040,6 +1067,7 @@ export default {
       border: none!important;
       padding: 0!important;
       margin: 0!important;
+      border-radius:0;
       border-top: 1px solid #ebebeb!important;
       .kf-icon{
         width: 48rpx;
@@ -1101,11 +1129,11 @@ export default {
 }
 .swiper-box{
   width: 100%;
-  height: 500rpx;
+  height: 600rpx;
   background: #333333;
   .slide-image{
     width: 750rpx;
-    height: 500rpx;
+    height: 600rpx;
   }
 }
 .scroller-box{

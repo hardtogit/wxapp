@@ -67,7 +67,7 @@
       <!--已经核销 end-->
     </div>
     <div class="bottom-btn-list">
-      <div class="btn-default btn-coffee" v-if="orderInfo.cancel === 1">我要退款</div>
+      <!--<div class="btn-default btn-coffee" v-if="orderInfo.cancel === 1">我要退款</div>-->
       <div class="btn-default btn-coffee" v-if="orderInfo.rateid === 0 && orderInfo.takestatus > 1" @click="ToComment">我要评论</div>
     </div>
   </div>

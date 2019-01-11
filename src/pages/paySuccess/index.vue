@@ -4,7 +4,12 @@
       <div class="pay-status">
         <p>购买支付成功</p>
       </div>
+      <button v-if="UserInfo&&!UserInfo.phone" class="bind-btn" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth"><div class="text"><div>绑定手机号</div><div class="tip">核销码过期前15日会短信提醒您</div></div></button>
       <div class="use-btn" @click="GoToOrderDetail">立即使用核销码</div>
+
+    </div>
+    <div v-if="GoodsInfo&&GoodsInfo.qrcode" class="qrcode">
+      <image @click="preImage" class="qun-qrcode" :src='GoodsInfo&&GoodsInfo.qrcode'/>
     </div>
     <div class="share-card-box">
       <div class="share-box-menu">
@@ -18,12 +23,14 @@
         </div>
       </div>
     </div>
-    <div class="share-rule-box">
+    <div class="share-rule-box" v-if="ruleShow">
       <div class="rule-item">
         <div class="item-header">
           <div class="item-title" style="background: #16bd14;">分享规则</div>
           <div class="condition">所有页面都可分享</div>
+          <div class="close"><image @click="hiddenRule" class="image" src="../../../static/image/close_icon.png" alt=""/> </div>
         </div>
+
         <div class="item-content">用户可随时分享页面给朋友，用户购买商品后，您将获得相应的商品推荐奖励，奖励最高标准在商品的右上角。您获得的实际奖励跟您的星级评分挂钩，星级越高，奖励越多！</div>
       </div>
       <div class="rule-item">
@@ -38,21 +45,10 @@
       <p>分享页面已生成</p>
       <p>分享任意页面给朋友可获得最高**元</p>
     </div>
-    <!-- 菜单导航 start -->
-    <div class="tab-menu-box">
-      <div class="tab-item" @click="popShowFunc('shopinfoPop')">
-        <p>商户信息</p>
-      </div>
-      <div class="tab-item" @click="popShowFunc('technicalSupportPop')">
-        <p>技术支持</p>
-      </div>
-      <div class="tab-item" @click="popShowFunc('becomeBusinessPop')">
-        <p>我也要卖</p>
-      </div>
-      <div class="tab-item tab-selected" @click="GoToMeView()">
-        <p>会员中心</p>
-      </div>
-    </div>
+    <div class="back-btn" @click="GoToMeView">返回个人中心</div>
+    <!--手机绑定弹出层 start-->
+    <bind-mobile ref="bindMobile" @BindmobileSuccess='BindmobileSuccess'></bind-mobile>
+    <!--手机绑定弹出层 end-->
     <!-- 菜单导航 end -->
     <!--商家详情弹出层 start-->
     <shopinfo-pop ref="shopinfoPop" :dataInfo="GoodsInfo.storeInfo"></shopinfo-pop>
@@ -66,38 +62,77 @@
     <!--合同细则弹出层 start-->
     <contract-pop ref="contractPop"></contract-pop>
     <!--合同细则弹出层 end-->
+    <circle-menu class="circleMenu" ref="circleMenu"
+                 type="top" :number="4"
+                 :btn="true" :circle="true"
+                 :btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},
+                 {text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
+                 ]">
+    </circle-menu>
   </div>
 </template>
 <script>
+import {reLogin} from '@/utils/utils'
 import shopinfoPop from '@/components/shopinfo-pop'
 import technicalSupportPop from '@/components/technical-support-pop'
 import becomeBusinessPop from '@/components/become-business-pop'
 import contractPop from '@/components/contract-pop'
 import SN from '@/config/localstorage.name'
+import bindMobile from '@/components/bind-mobile'
+import circleMenu from '@/components/circle-menu'
+
 export default {
   data () {
     return {
-      GoodsInfo: wx.getStorageSync(SN.PayGoodsInfo),
       RecommendList: [],
       tipsShow: false,
       optionObj: null,
-      tabSelected: 0
+      tabSelected: 0,
+      ruleShow: true
+    }
+  },
+  computed: {
+    UserInfo () {
+      return this.$store.state.app.UserInfo
+    },
+    GoodsInfo () {
+      return this.$store.state.app.GoodsInfo
     }
   },
   components: {
     shopinfoPop,
     technicalSupportPop,
     becomeBusinessPop,
-    contractPop
+    contractPop,
+    bindMobile,
+    circleMenu
   },
   methods: {
     // 初始化数据
     InitalData () {
-      this.GoodsInfo = wx.getStorageSync(SN.PayGoodsInfo)
       this.RecommendList = []
       this.tipsShow = false
       this.optionObj = null
       this.tabSelected = 0
+    },
+    preImage () {
+      wx.downloadFile({
+        url: this.GoodsInfo.qrcode,
+        success (res) {
+          if (res.statusCode === 200) {
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: () => {
+                wx.showModal({
+                  title: '小提示',
+                  content: '二维码已保存到手机相册，使用微信扫一扫扫码加群,更多优惠商品等你来！',
+                  showCancel: false
+                })
+              }
+            })
+          }
+        }
+      })
     },
     GoToMeView () {
       const url = '../me/main'
@@ -106,6 +141,9 @@ export default {
     tabCheckFunc (num) {
       this.tabSelected = num
       this.GetRecommendGoods()
+    },
+    hiddenRule () {
+      this.ruleShow = false
     },
     GetRecommendGoods () {
       const _this = this
@@ -126,27 +164,76 @@ export default {
       const url = '../goods/main?gid=' + id
       wx.navigateTo({ url })
     },
+    BindmobileSuccess () {
+      this.$store.dispatch({
+        type: 'GetUserInfo'
+      })
+    },
+    triggerBindMobile () {
+      this.$refs.bindMobile.showFunc()
+    },
+    Bindmobilebyauth (e) {
+      console.log(e)
+      const _this = this
+      let eDetail = e.mp.detail
+      if (eDetail.encryptedData && eDetail.iv) {
+        wx.showLoading({
+          title: '手机绑定中'
+        })
+        _this.$store.dispatch({
+          type: 'Bindmobilebyauth',
+          data: {
+            session_key: wx.getStorageSync(SN.Auth).session_key,
+            iv: e.mp.detail.iv,
+            encryptedData: e.mp.detail.encryptedData
+          }
+        }).then(res => {
+          _this.$store.dispatch({
+            type: 'GetUserInfo'
+          })
+          wx.hideLoading()
+          wx.showToast({
+            title: '手机绑定成功',
+            icon: 'success'
+          })
+        }).catch(() => {
+          wx.hideLoading()
+          wx.showToast({
+            title: '手机绑定失败',
+            icon: 'none'
+          })
+        })
+      } else {
+        _this.triggerBindMobile()
+      }
+    },
     // 弹框弹出隐藏事件
     popShowFunc (type) {
-      switch (type) {
-        case 'shopinfoPop':
-          this.$refs.shopinfoPop.showFunc()
-          break
-        case 'technicalSupportPop':
-          this.$refs.technicalSupportPop.showFunc()
-          break
-        case 'becomeBusinessPop':
-          this.$refs.becomeBusinessPop.showFunc()
-          break
-        case 'contractPop':
-          this.$refs.contractPop.showFunc()
-          break
-      }
+      this.$refs[type].showFunc()
+    }
+  },
+  // 滚动时隐藏菜单栏
+  onPageScroll: function (e) {
+    if (this.$refs.circleMenu.open === true) {
+      this.$refs.circleMenu.open = false
+      this.$refs.circleMenu.toggleAnimate = false
+      this.$refs.circleMenu.MaskToggle = false
+    }
+  },
+  onHide () {
+    if (this.$refs.circleMenu.open === true) {
+      this.$refs.circleMenu.open = false
+      this.$refs.circleMenu.toggleAnimate = false
+      this.$refs.circleMenu.MaskToggle = false
     }
   },
   onLoad (option) {
     this.optionObj = option
     this.GetRecommendGoods()
+    reLogin()
+    this.$store.dispatch({
+      type: 'GetUserInfo'
+    })
   }
 }
 </script>
@@ -158,6 +245,11 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-bottom: 150rpx;
+  .qun-qrcode{
+    margin: 20px auto 0 auto;
+    width: 164px;
+    height: 164px;
+  }
   .pay-return-box{
     display: flex;
     flex-direction: column;
@@ -179,6 +271,27 @@ export default {
         color: #1aad19;
       }
     }
+    .bind-btn{
+      width: 524rpx;
+      height: 89rpx;
+      background: #f47023;
+      justify-items: center;
+      box-shadow: 0 10rpx 10rpx 0	rgba(7, 0, 2, 0.26);
+      border-radius: 10rpx;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      font-size: 34rpx;
+      margin-top: 70rpx;
+      text-align: center;
+      .text{
+        flex: 1;
+        .tip{
+          font-size: 10px;
+          margin-top: 4px;
+        }
+      }
+    }
     .use-btn{
       width: 524rpx;
       height: 89rpx;
@@ -192,8 +305,20 @@ export default {
       text-align: center;
     }
   }
+  .back-btn{
+    width: 524rpx;
+    height: 89rpx;
+    background: #f47023;
+    box-shadow: 0 10rpx 10rpx 0	rgba(7, 0, 2, 0.26);
+    border-radius: 10rpx;
+    line-height: 89rpx;
+    color: #ffffff;
+    font-size: 34rpx;
+    margin-top: 30rpx;
+    text-align: center;
+  }
   .share-card-box{
-    margin-top: 130rpx;
+    margin-top: 70rpx;
     width: 710rpx;
     display: flex;
     flex-direction: column;
@@ -258,6 +383,18 @@ export default {
     }
   }
   .share-rule-box{
+    .close{
+      flex: 1;
+      text-align: right;
+      .image{
+        width: 24px;
+        float: right;
+        display: block;
+        height: 24px;
+        background: url("../../../static/image/close_icon.png");
+        background-size: 100% 100%;
+      }
+    }
     margin-top: 30rpx;
     width: 710rpx;
     padding: 20rpx;
@@ -267,7 +404,7 @@ export default {
     background: #f9f9f9;
     display: flex;
     flex-direction: column;
-    margin-bottom: 60rpx;
+    margin-bottom: 30rpx;
     .rule-item{
       width: 100%;
       display: flex;

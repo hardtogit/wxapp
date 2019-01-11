@@ -93,7 +93,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         .username{
-          font-size: 24rpx;
+          font-size: 28rpx;
           color: #333333;
         }
         .star-list{
@@ -107,7 +107,7 @@ export default {
     }
     .comment-detail{
       margin-top: 10rpx;
-      font-size: 24rpx;
+      font-size: 28rpx;
       line-height: 34rpx;
       color: #010101;
     }
@@ -148,7 +148,7 @@ export default {
       margin-top: 30rpx;
       background: #eeeeee;
       padding: 20rpx;
-      font-size: 18rpx;
+      font-size: 24rpx;
       line-height: 28rpx;
       color: #333333;
     }

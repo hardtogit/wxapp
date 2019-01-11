@@ -6,8 +6,11 @@ export default {
     state.count += 1
   },
   [types.USER_INFO] (state, data) {
-    console.log(state, 'aaaaaaa')
     wx.setStorageSync(SN.UserInfo, data)
     state.UserInfo = data
+  },
+  [types.GOODS_INFO] (state, data) {
+    console.log(data)
+    state.GoodsInfo = data
   }
 }

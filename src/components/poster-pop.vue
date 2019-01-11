@@ -7,8 +7,9 @@
           <!--弹框内容 start-->
           <div class="poster-container">
             <image :src="posterImg" class="poster-pic" mode="widthFix" @touchstart='timeStartFunc' @touchend='timeEndFunc' @tap='saveImg'/>
-            <div class="save-ts">
-              <p>长按图片保存海报</p>
+            <p class="tip">长按图片也可保存海报到手机相册</p>
+            <div class="save-ts" @tap="saveImg('click')">
+              <p>保存海报到手机相册</p>
             </div>
             <div class="close-btn" @click="showFunc"></div>
           </div>
@@ -44,10 +45,10 @@ export default {
     timeEndFunc (e) {
       this.timeEnd = e.timeStamp
     },
-    saveImg () {
+    saveImg (type) {
       const _this = this
       let times = _this.timeEnd - _this.timeStart
-      if (times > 300) {
+      if (times > 300 || type === 'click') {
         wx.getSetting({
           success: function (res) {
             wx.authorize({
@@ -104,29 +105,45 @@ export default {
 <style lang="less" scoped>
 @import '../../static/style/reset';
 .poster-container{
-  width: 550rpx;
+  width: 520rpx;
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
+  .tip{
+    color: #666;
+    width: 520rpx;
+    padding: 20rpx;
+    font-size: 24rpx;
+    text-align: center;
+    margin-bottom: 20rpx;
+    background: #FEF8F4;
+    height: 56rpx;
+    font-size: 22rpx;
+    color:rgba(38,38,38,.4);
+  }
 }
 .poster-pic{
-  width: 550rpx;
+  width: 520rpx;
   height: auto;
 }
 .save-ts{
-  background: #e7e5e5;
-  height: 80rpx;
-  width: 550rpx;
+  background: #FCC530;
+  height: 82rpx;
+  border-radius: 42rpx;
+  width: 520rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   p{
     font-size: 28rpx;
-    color: #333333;
+    color: #262626;
   }
 }
 .close-btn{
-  margin-top: 35rpx;
+  position: absolute;
+  right: -56rpx;
+  top:-38rpx;
   width: 48rpx;
   height: 48rpx;
   background: url('../../static/image/hb_icon_guanbi.png') no-repeat;
