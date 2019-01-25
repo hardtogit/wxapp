@@ -31,7 +31,8 @@ export default {
       'pages/changeInfo/main',
       'pages/withdrawRecord/main',
       'pages/codeEdit/main',
-      'pages/totalRecord/main'
+      'pages/totalRecord/main',
+      'pages/storeDetail/main'
     ],
     window: {
       navigationBarBackgroundColor: '#fff',

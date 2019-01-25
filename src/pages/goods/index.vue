@@ -12,7 +12,7 @@
         :autoplay="autoplay" :interval="interval" :duration="duration">
         <block v-for="(item, index) in BannerPics" :key="index">
           <swiper-item>
-            <image :src="item" class="slide-image" mode="aspectFill"/>
+            <image :src="item" class="slide-image" />
           </swiper-item>
         </block>
       </swiper>
@@ -73,10 +73,10 @@
       </div>
       <div class="shop-info-card">
         <div class="shopinfo-top">
-          <div class="top-left">
+          <div class="top-left" @click="ToOtherPage(`../storeDetail/main?storeid=${GoodsInfo.storeid}`)">
             <image :src="GoodsInfo.storeInfo.shopiconurl" class="shop-pic" mode="aspectFill"/>
             <div class="shop-base-info">
-              <p class="shop-name">{{GoodsInfo.storeInfo.storename}}</p>
+              <p class="shop-name" >{{GoodsInfo.storeInfo.storename}}</p>
               <div class="shop-level">
                 <stars-level :score="3"></stars-level>
                 <p class="comment-number">{{GoodsInfo.ratenum}}人评价</p>
@@ -111,6 +111,29 @@
             <wxParse :content="GoodsInfo.content" @preview="preview" @navigate="navigate"/>
           </div>
         </div>
+      </div>
+      <div class="goods-container" v-if="StoreGoods.data&&StoreGoods.data.length">
+        <div class="title">
+          <div class="inner">
+            <div class="left">推荐商品</div>
+            <div class="right" @click="ToOtherPage(`../storeDetail/main?storeid=${GoodsInfo.storeid}`)">查看全部</div>
+          </div>
+        </div>
+        <div class="goods-item" v-for="(value ,index) in StoreGoods.data">
+          <goods-card
+            v-if="index<2"
+            :img="value.cover"
+            :title="value.goodsname"
+            :sellprice="value.sellprice"
+            :marketprice="value.marketprice"
+            :sales="value.sales"
+            :stock="value.stock"
+            :clickFn="()=>ToOtherPage(`../goods/main?gid=${value.id}`)"
+          ></goods-card>
+        </div>
+
+        <!--<goods-card ></goods-card>-->
+        <!--<goods-card ></goods-card>-->
       </div>
       <!-- 商品详情 end -->
       <!-- 商品评论 start -->
@@ -258,6 +281,7 @@ import bindMobile from '@/components/bind-mobile'
 import phoneView from '@/components/phone-view'
 import authorizationPop from '@/components/authorization-pop'
 import circleMenu from '@/components/circle-menu'
+import goodsCard from '@/components/goods-card'
 import SN from '@/config/localstorage.name'
 import * as utils from '@/utils/utils'
 export default {
@@ -272,6 +296,7 @@ export default {
       duration: 400,
       GoodsInfo: null,
       StoreInfo: null,
+      StoreGoods: {},
       CommentInfo: {
         data: []
       },
@@ -302,7 +327,8 @@ export default {
     receiveCoupon,
     phoneView,
     authorizationPop,
-    circleMenu
+    circleMenu,
+    goodsCard
   },
   methods: {
     // 下拉刷新
@@ -358,6 +384,9 @@ export default {
       _this.GetUserInfo()
       // 重新执行领取优惠券动作
       _this.ReceiveCoupon()
+    },
+    ToOtherPage (url) {
+      wx.navigateTo({ url })
     },
     // 登陆并判断是否授权
     Login () {
@@ -517,6 +546,12 @@ export default {
         let goodsInfo = obj.data
         goodsInfo.storeInfo.detailAddress = goodsInfo.storeInfo.province + goodsInfo.storeInfo.city + goodsInfo.storeInfo.area + goodsInfo.storeInfo.town + goodsInfo.storeInfo.address
         _this.GoodsInfo = goodsInfo
+        _this.$store.dispatch({
+          type: 'GetStoreGoodsList',
+          data: {storeid: goodsInfo.storeid}
+        }).then(res => {
+          _this.StoreGoods = res.data
+        })
         if (!_this.init) {
           _this.getPost()
           _this.init = true
@@ -677,6 +712,36 @@ export default {
 
 <style lang="less" scoped>
 @import '../../../static/style/reset';
+.goods-container{
+  margin-top: 10px;
+  padding-top: 15px;
+  background-color: #fff;
+  .title{
+    padding: 0 10px;
+    margin-bottom: 10px;
+    .inner{
+      display: flex;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1rpx solid #ededed;
+      .left{
+        flex: 1;
+        font-size: 14px;
+      }
+      .right{
+        flex: 1;
+        font-size: 12px;
+        color: #999;
+        text-align: right;
+      }
+    }
+  }
+  .goods-item{
+    /*float: left;*/
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
 .product-info-card{
   width: 100%;
   /*background: #ffffff;*/

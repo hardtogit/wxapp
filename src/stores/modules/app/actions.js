@@ -49,6 +49,9 @@ export default {
   GetStoreInfoById ({commit}, opt) {
     return basePromiss(GlobalsApi, 'GetStoreInfoById', opt)
   },
+  GetStoreGoodsList ({commit}, opt) {
+    return basePromiss(GlobalsApi, 'GetStoreGoodsList', opt)
+  },
   GetCommentList ({commit}, opt) {
     return basePromiss(GlobalsApi, 'GetCommentList', opt)
   },

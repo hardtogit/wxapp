@@ -1,0 +1,185 @@
+.container-box{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #F6F5F5;
+  .cover{
+    width: 100%;
+    height: 375rpx;
+    overflow: hidden;
+    img{
+      width: 100%;
+    }
+  }
+  .share-icon{
+    width: 64rpx;
+    height: 64rpx;
+    border: none;
+    display: block;
+    background: url('https://cdn.618000.com/wemini/images/1534184864072.gif') no-repeat;
+    // background: url('../../../static/image/share_icon.png') no-repeat;
+    background-size: 100% 100%;
+    &:after{
+      border: 0;
+    }
+  }
+  .storeInfo{
+    padding:0 10px;
+    background-color: #fff;
+    .container{
+      padding:10px 0;
+      background-color: #fff;
+      &.store{
+        border-bottom: 1rpx solid #ededed;
+      }
+      .flex{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        .left{
+          flex:1;
+          .name{
+            font-size: 14px;
+            color:#010101;
+            margin-bottom: 8px;
+          }
+          .time{
+            font-size: 11px;
+            color: #777;
+            .fa-map-marker{
+              font-size: 12px;
+            }
+          }
+          border-right: 1px solid #ededed;
+        }
+        .right{
+          flex: 0 45px;
+          text-align: center;
+          padding-left: 10px;
+          img{
+            width: 15px;
+            height: 15px;
+            display: block;
+            margin: 0 auto;
+            background-image: url("../../../static/image/phone.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+    }
+    &.location{
+      margin-top: 10px;
+      .flex{
+        height: 33px;
+      }
+      .name{
+        margin-bottom: 0!important;
+        height: 33px;
+        line-height: 33px;
+        .fa-map-marker{
+          color: #999;
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+  .shopinfo-bottom{
+    padding: 0 10px;
+    background-color: #fff;
+    /*display: flex;*/
+    align-items: center;
+    justify-content: space-between;
+    .path-str{
+      .certificate{
+        width: 12px;
+        height: 11px;
+        display: inline-block;
+        margin-right:2px ;
+        background-image: url("../../../static/image/certificate.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
+      border-top: 1rpx solid #ededed;
+      padding: 11px 0;
+      font-size: 28rpx;
+      color: #999999;
+      .fa-map-marker{
+        margin-right: 10rpx;
+      }
+      .fa-angle-right{
+        float: right;
+      }
+    }
+    .wx-icon{
+      width: 48rpx;
+      height: 48rpx;
+      background: url('../../../static/image/mp_icon.png') no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  .stores{
+    margin-top: 10px;
+    background-color: #fff;
+    .title{
+      font-size: 12px;
+      color:rgba(68,68,68,1);
+      padding: 10px;
+    }
+    .more{
+      text-align: center;
+      font-size: 12px;
+      color:#999;
+      padding: 10px;
+      .fa-angle-double-down,.fa-angle-double-up{
+        display: inline-block;
+        position: relative;
+        top:1px
+      }
+    }
+  }
+  .tabs{
+    height: 40px;
+    background-color: #fff;
+    margin-top: 10px;
+    .tab{
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      float: left;
+      margin-left: 10px;
+      &.active{
+        color: #F61134;
+        border-bottom: 2px solid #F61134;
+      }
+    }
+  }
+  .goods-container{
+    padding-top: 15px;
+    background:rgba(246,245,245,1);;
+    .goods-item{
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  .ten{
+    width: 690rpx;
+    margin: 0 auto;
+    border-top: 1rpx solid #ededed;
+    padding: 10px;
+    .icon{
+      width: 64rpx;
+      height: 64rpx;
+      margin: 0 auto;
+      background-image: url("../../../static/image/logoIcon.png");
+      background-size: 100% 100%;
+    }
+    .text{
+      text-align: center;
+      font-size: 12px;
+      color: #ccc;
+      margin-top: 6px;
+    }
+  }
+
+}

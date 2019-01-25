@@ -64,10 +64,18 @@ export function GetGoodsById (data) {
   })
 }
 
-// 根据商品id获取商户基本信息
+// 根据商户id获取商户基本信息
 export function GetStoreInfoById (data) {
   return Fly.Request({
     url: COMMON_CONFIG.GLOBALS_API + '/storeinfo',
+    method: 'post',
+    data
+  })
+}
+// 根据商户id获取商品信息
+export function GetStoreGoodsList (data) {
+  return Fly.Request({
+    url: '/miniapp/goods/getlist',
     method: 'post',
     data
   })
