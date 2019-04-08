@@ -1,7 +1,7 @@
 <template>
   <div class="container-box">
     <div class="cover">
-    <img  :src="StoreInfo.cover" alt="">
+    <img  :src="StoreInfo.cover" alt="" mode="widthFix">
     </div>
     <div class="storeInfo">
       <div class="container">
@@ -127,7 +127,7 @@ export default {
       const _this = this
       _this.$store.dispatch({
         type: 'GetStoreGoodsList',
-        data: {storeid: _this.queryObj.storeid}
+        data: {storeid: _this.queryObj.storeid, cateid: this.tabSelected}
       }).then(res => {
         _this.StoreGoods = res.data
       })

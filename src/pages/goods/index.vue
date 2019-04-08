@@ -27,27 +27,25 @@
         <div class="basic-info">
           <div class="info-top">
             <div class="pro-name">{{GoodsInfo.goodsname}}</div>
-            <div class="share-icon" @click="popShowFunc('sharePopView')"></div>
+            <!--<div class="share-icon" @click="popShowFunc('sharePopView')"></div>-->
           </div>
           <div class="info-bottom">
             <div class="info-bottom-left">
               <text class="discount-price">¥{{GoodsInfo.sellprice}}</text>
               <text class="original-price">￥{{GoodsInfo.marketprice}}</text>
             </div>
-              <!--<div class="pro-number">-->
-                <!--<p>剩{{GoodsInfo.stock}}份</p>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<p class="sales-volume">销量: {{GoodsInfo.sales}}</p>-->
-          </div>
-          <div class="sale-bar">
-            <div class="saled" :style="'width:'+100*GoodsInfo.sales/(GoodsInfo.stock+GoodsInfo.sales)+'%'">
-                已售{{GoodsInfo.sales}}
-            </div>
-            <span class="level">
+            <div class="info-bottom-right">
+              <div class="sale-bar">
+                <div class="saled" :style="'width:'+100*GoodsInfo.sales/(GoodsInfo.stock+GoodsInfo.sales)+'%'">
+                  已售{{GoodsInfo.sales}}
+                </div>
+                <span class="level">
             还剩{{GoodsInfo.stock}}份
               </span>
+              </div>
+            </div>
           </div>
+
         </div>
         <div class="use-info">
           <div class="list-item">
@@ -64,11 +62,11 @@
       <!-- 商铺信息 start -->
       <div class="shop-authentication-card">
         <div class="card-left">
-          <div class="icon"></div>
-          <p>该商品已加入诚信保障体系</p>
+          <p>该企业已通过认证</p><div class="icon" @click="popShowFunc('shopinfoPop')"></div>
         </div>
-        <div class="rz-icon" @click="popShowFunc('shopinfoPop')">
-          <p>商户认证</p>
+        <div class="rz-icon" >
+          <p class="icon_one"></p>
+          <p class="icon_two"></p>
         </div>
       </div>
       <div class="shop-info-card">
@@ -119,7 +117,7 @@
             <div class="right" @click="ToOtherPage(`../storeDetail/main?storeid=${GoodsInfo.storeid}`)">查看全部</div>
           </div>
         </div>
-        <div class="goods-item" v-for="(value ,index) in StoreGoods.data">
+        <div class="goods-item" v-for="(value ,index) in StoreGoods.data" wx:key="index">
           <goods-card
             v-if="index<2"
             :img="value.cover"
@@ -167,18 +165,32 @@
       <div class="scroll-bottom"></div>
     </scroll-view>
     <!-- 菜单导航 start -->
-    <div class="tab-menu-box" v-if="BottomTabShow">
-      <div class="tab-item" @click="popShowFunc('shopinfoPop')">
-        <p>商户信息</p>
+    <!--<div class="tab-menu-box" v-if="BottomTabShow">-->
+      <!--<div class="tab-item" @click="popShowFunc('shopinfoPop')">-->
+        <!--<p>商户信息</p>-->
+      <!--</div>-->
+      <!--<div class="tab-item" @click="popShowFunc('technicalSupportPop')">-->
+        <!--<p>技术支持</p>-->
+      <!--</div>-->
+      <!--<div class="tab-item" @click="popShowFunc('becomeBusinessPop')">-->
+        <!--<p>我也要卖</p>-->
+      <!--</div>-->
+      <!--<div class="tab-item tab-selected" @click="GoToMeView()">-->
+        <!--<p>会员中心</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="nav" v-if="!showNav" @click="toggleNav(true)">
+        导航
+    </div>
+    <div class="nav-tab" v-if="showNav" >
+      <div class="top" @click="GoToMeView()">
+        <p>会员</p>
+        <p>中心</p>
       </div>
-      <div class="tab-item" @click="popShowFunc('technicalSupportPop')">
-        <p>技术支持</p>
-      </div>
-      <div class="tab-item" @click="popShowFunc('becomeBusinessPop')">
-        <p>我也要卖</p>
-      </div>
-      <div class="tab-item tab-selected" @click="GoToMeView()">
-        <p>会员中心</p>
+      <div class="line"></div>
+      <div class="bottom" @click="popShowFunc('becomeBusinessPop')">
+        <p>商务</p>
+        <p>合作</p>
       </div>
     </div>
     <!-- 菜单导航 end -->
@@ -188,12 +200,16 @@
         <div class="kf-icon"></div>
         <p>客服</p>
       </div> -->
-      <button open-type="contact" :plain="true" :session-from="'client|' + GoodsInfo.storeInfo.id + '|' + GoodsInfo.id" class="kf-btn">
+      <div @click="popShowFunc('sharePopView')" class="kf-btn">
         <div class="kf-icon"></div>
-        <p>客服</p>
-      </button>
-      <div class="buy-now" @click="popShowFunc('buyNowPop')" v-if="GoodsInfo.stock > 0">立即购买</div>
-      <div class="buy-now no-stock" v-if="GoodsInfo.stock <= 0">已售空</div>
+        <p>分享</p>
+      </div>
+      <div class="buy-now" @click="popShowFunc('buyNowPop')" v-if="GoodsInfo.stock > 0">
+        <div class="btn">
+          马上购买
+        </div>
+      </div>
+      <div class="buy-now no-stock" v-if="GoodsInfo.stock <= 0"><div class="btn">已售空</div></div>
     </div>
     <!-- 底部按钮 end -->
     <!--立即购买弹出层 start-->
@@ -247,17 +263,17 @@
     <!--授权登陆弹框 start-->
     <authorization-pop ref="authorizationPop" @successFunc="AuthorizeSuccess"></authorization-pop>
     <!--授权登陆弹框 end-->
-    <circle-menu class="circleMenu" ref="circleMenu"
-                 type="top" :number="4"
-                 :btn="true" :circle="true"
-                 :btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},
-                 {text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
-                 ]">
+    <!--<circle-menu class="circleMenu" ref="circleMenu"-->
+                 <!--type="top" :number="4"-->
+                 <!--:btn="true" :circle="true"-->
+                 <!--:btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},-->
+                 <!--{text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}-->
+                 <!--]">-->
       <!--<a slot="item_1" @click="popShowFunc('shopinfoPop')" class="fa fa-twitter fa-lg" herf="#" >商户信息</a>-->
       <!--<a slot="item_2" @click="popShowFunc('technicalSupportPop')" class="fa fa-weixin fa-lg" herf="#" >技术支持</a>-->
       <!--<a slot="item_3" @click="popShowFunc('becomeBusinessPop')" class="fa fa-weibo fa-lg" herf="#" >我也要卖</a>-->
       <!--<a slot="item_4" @click="GoToMeView()" class="fa fa-github fa-lg" herf="#" >会员中心</a>-->
-    </circle-menu>
+    <!--</circle-menu>-->
   </div>
 </template>
 
@@ -305,7 +321,8 @@ export default {
       commentDetailInfo: null,
       receiveCouponInfo: null,
       isScroll: true,
-      init: false
+      init: false,
+      showNav: false
     }
   },
   components: {
@@ -387,6 +404,9 @@ export default {
     },
     ToOtherPage (url) {
       wx.navigateTo({ url })
+    },
+    toggleNav (status) {
+      this.showNav = status
     },
     // 登陆并判断是否授权
     Login () {
@@ -496,6 +516,7 @@ export default {
     },
     // 弹框弹出隐藏事件
     popShowFunc (type) {
+      console.log('s')
       const _this = this
       switch (type) {
         case 'buyNowPop':
@@ -657,11 +678,12 @@ export default {
   },
   // 滚动时隐藏菜单栏
   onPageScroll: function (e) {
-    if (this.$refs.circleMenu.open === true) {
-      this.$refs.circleMenu.open = false
-      this.$refs.circleMenu.toggleAnimate = false
-      this.$refs.circleMenu.MaskToggle = false
-    }
+    this.showNav = false
+    // if (this.$refs.circleMenu.open === true) {
+    //   this.$refs.circleMenu.open = false
+    //   this.$refs.circleMenu.toggleAnimate = false
+    //   this.$refs.circleMenu.MaskToggle = false
+    // }
   },
   // 下拉刷新
   onPullDownRefresh () {
@@ -712,508 +734,7 @@ export default {
 
 <style lang="less" scoped>
 @import '../../../static/style/reset';
-.goods-container{
-  margin-top: 10px;
-  padding-top: 15px;
-  background-color: #fff;
-  .title{
-    padding: 0 10px;
-    margin-bottom: 10px;
-    .inner{
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1rpx solid #ededed;
-      .left{
-        flex: 1;
-        font-size: 14px;
-      }
-      .right{
-        flex: 1;
-        font-size: 12px;
-        color: #999;
-        text-align: right;
-      }
-    }
-  }
-  .goods-item{
-    /*float: left;*/
-    display: inline-block;
-    margin-left: 10px;
-  }
-}
-.product-info-card{
-  width: 100%;
-  /*background: #ffffff;*/
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #ebebeb;
-  .basic-info{
-    flex: 1;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 25rpx 30rpx 30rpx 30rpx;
-    margin-bottom: 20rpx;
-    .info-top{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .pro-name{
-        width: 480rpx;
-        font-size: 32rpx;
-        line-height: 40rpx;
-        color: #2F2F2F;
-        letter-spacing: 0;
-        font-weight: bold;
-      }
-      .share-icon{
-        width: 60rpx;
-        height: 60rpx;
-        background: url('https://cdn.618000.com/wemini/images/1534184864072.gif') no-repeat;
-        // background: url('../../../static/image/share_icon.png') no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-    .info-bottom{
-      margin-top: 20rpx;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      .info-bottom-left{
-        display: flex;
-        align-items: flex-end;
-        .discount-price{
-          font-size: 44rpx;
-          color: #f34747;
-          line-height: 40rpx;
-        }
-        .original-price{
-          font-size: 26rpx;
-          color: #999999;
-          line-height: 24rpx;
-          margin-left: 18rpx;
-          text-decoration: line-through;
-        }
-        .pro-number{
-          height: 20rpx;
-          padding: 0 10rpx;
-          border-radius: 0 10rpx 10rpx 0;
-          position: relative;
-          font-size: 18rpx;
-          line-height: 20rpx;
-          color: #ffffff;
-          background: #ab9985;
-          margin-left: 25rpx;
-          &::before{
-            content: '';
-            width: 0;
-            height: 0;
-            left: -20rpx;
-            top: 0;
-            position: absolute;
-            border-style: solid;
-            border-width: 10rpx;
-            border-color: transparent #ab9985 transparent transparent;
-          }
-        }
-      }
-      .sales-volume{
-        font-size: 24rpx;
-        color: #999999;
-      }
-    }
-    .sale-bar{
-      width: 500rpx;
-      height: 28rpx;
-      border-radius: 14rpx;
-      background-color: rgba(252,197,48,.2);
-      margin-top: 15rpx;
-      position: relative;
-      font-size: 20rpx;
-      line-height: 28rpx;
-      text-align: right;
-      padding-right: 10rpx;
-      color: #666;
-      .saled{
-        position: absolute;
-        white-space: nowrap;
-        left: 0;
-        top:0;
-        border-radius: 14rpx;
-        height: 28rpx;
-        background-color: #FCC530;
-        font-size: 20rpx;
-        color: #666;
-        text-align: left;
-        line-height: 28rpx;
-        padding-left: 10rpx;
-      }
-      .level{
-        position: relative;
-        z-index: 2;
-      }
-    }
-  }
-  .shireContainer{
-    margin-top: 20rpx;
-    .shireCode{
-      width: ;
-    }
-  }
-  .use-info{
-    padding: 20rpx 30rpx 0 30rpx;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20rpx;
-    .list-item{
-      display: flex;
-      align-items: center;
-      margin-bottom: 16rpx;
-      &::before{
-        content: '';
-        width: 24rpx;
-        height: 24rpx;
-        background: url('../../../static/image/right_icon.png') no-repeat;
-        background-size: 100% 100%;
-        margin-right: 6rpx;
-      }
-      &:first-child{
-        padding-bottom: 20rpx;
-        border-bottom: 1rpx solid #ededed;
-      }
-      p{
-        font-size: 24rpx;
-        color: #333333;
-      }
-    }
-    .process-img{
-      width: 520rpx;
-      height: 80rpx;
-      align-self: center;
-      background: url('../../../static/image/buy_icon.png') no-repeat;
-      background-size: 100% 100%;
-    }
-  }
-}
-.creatPost{
-  position: fixed;
-  right: 0;
-  top:40rpx;
-  color: #f6f6f6;
-  font-size: 22rpx;
-  background-color: #ff9933;
-  width: 137rpx;
-  height: 48rpx;
-  border-bottom-left-radius: 32rpx;
-  border-top-left-radius: 32rpx;
-  line-height: 48rpx;
-  text-align: center;
-}
-.shop-authentication-card{
-    width: 100%;
-    padding: 20rpx 30rpx;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #ffffff;
-    border-bottom: 1px solid #ebebeb;
-    .card-left{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .icon{
-        width: 40rpx;
-        height: 40rpx;
-        border-radius: 20rpx;
-        background: url('../../../static/image/cheng_icon.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      p{
-        margin-left: 12rpx;
-        font-size: 24rpx;
-        color: #999999;
-      }
-    }
-    .rz-icon{
-      height: 40rpx;
-      padding: 18rpx;
-      border-radius: 10rpx;
-      background: #09bb07;
-      display: flex;
-      align-items: center;
-      &::before{
-        content: '';
-        width: 30rpx;
-        height: 30rpx;
-        background: url('../../../static/image/renzheng_icon.png') no-repeat;
-        background-size: 100% 100%;
-        margin-right: 10rpx;
-      }
-      p{
-        font-size: 22rpx;
-        color: #ffffff;
-      }
-    }
-}
-.shop-info-card{
-    width: 100%;
-    background: #ffffff;
-    padding: 0 30rpx;
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #ebebeb;
-    .shopinfo-top{
-      padding: 22rpx 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #ebebeb;
-      .top-left{
-        display: flex;
-        align-items: center;
-        .shop-pic{
-          width: 88rpx;
-          height: 88rpx;
-          background: #333333;
-          border-radius: 44rpx;
-        }
-        .shop-base-info{
-          margin-left: 30rpx;
-          display: flex;
-          flex-direction: column;
-          .shop-name{
-            font-size: 32rpx;
-            color: #333333;
-          }
-          .shop-level{
-            margin-top: 16rpx;
-            display: flex;
-            align-items: center;
-            .level-list{
-              display: flex;
-              align-items: center;
-              .level-item{
-                width: 24rpx;
-                height: 24rpx;
-                background: url('../../../static/image/star_on_icon.png') no-repeat;
-                background-size: 100% 100%;
-                margin-left: 4rpx;
-                &:first-child{
-                  margin-left: 0;
-                }
-              }
-              .star-two{
-                background: url('../../../static/image/star_gray_icon.png') no-repeat;
-                background-size: 100% 100%;
-              }
-            }
-            .comment-number{
-              margin-left: 16rpx;
-              font-size: 24rpx;
-              color: #ab9985;
-            }
-          }
-        }
-      }
-      .top-right{
-        display: flex;
-        align-items: center;
-        .map-icon{
-          width: 70rpx;
-          height: 70rpx;
-          background: url('../../../static/image/daohang_icon.png') no-repeat;
-          background-size: 100% 100%;
-        }
-        .phone-icon{
-          width: 70rpx;
-          height: 70rpx;
-          margin-left: 14rpx;
-          background: url('../../../static/image/dianhua_icon.png') no-repeat;
-          background-size: 100% 100%;
-        }
-      }
-    }
-    .shopinfo-bottom{
-      padding: 22rpx 0;
-      /*display: flex;*/
-      align-items: center;
-      justify-content: space-between;
-      .path-str{
-        font-size: 28rpx;
-        color: #999999;
-        .fa-map-marker{
-          margin-right: 10rpx;
-        }
-        .fa-angle-right{
-          float: right;
-        }
-      }
-      .wx-icon{
-        width: 48rpx;
-        height: 48rpx;
-        background: url('../../../static/image/mp_icon.png') no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-}
-.common-card{
-    width: 100%;
-    margin-top: 20rpx;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    .card-header{
-      height: 80rpx;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30rpx;
-      border-bottom: 1rpx solid #ebebeb;
-      .title{
-        font-size: 28rpx;
-        color: #333333;
-      }
-      .heder-right{
-        display: flex;
-        align-items: center;
-        p{
-          font-size: 22rpx;
-          color: #999999;
-          text-decoration: underline;
-        }
-        &::after{
-          content: '';
-          width: 14rpx;
-          height: 24rpx;
-          background: url('../../../static/image/more_icon.png') no-repeat;
-          background-size: 100% 100%;
-          margin-left: 10rpx;
-        }
-      }
-    }
-    .card-content{
-      width: 100%;
-      padding: 22rpx 30rpx;
-      overflow: hidden;
-      .wx-parse-box{
-        width: 690rpx;
-        overflow: hidden;
-        color: #666;
-      }
-    }
-    .home-comment-list{
-      padding: 22rpx 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-}
-.bottom-box{
-    width: 100%;
-    height: 98rpx;
-    position: fixed;
-    z-index: 100;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .kf-btn{
-      width: 135rpx;
-      height: 98rpx;
-      background: #ffffff!important;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: none!important;
-      padding: 0!important;
-      margin: 0!important;
-      border-radius:0;
-      border-top: 1px solid #ebebeb!important;
-      .kf-icon{
-        width: 48rpx;
-        height: 48rpx;
-        background: url('../../../static/image/kf_icon.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      p{
-        font-size: 20rpx;
-        color: #ab9985;
-        margin-top: 8rpx;
-      }
-    }
-    .buy-now{
-      flex: 1;
-      height: 98rpx;
-      background: linear-gradient(225deg,	#f4042b 0%,	#fa5353 100%);
-      font-size: 28rpx;
-      line-height: 98rpx;
-      color: #ffffff;
-      text-align: center;
-      &.no-stock{
-        background: #dddddd;
-      }
-    }
-}
-.tab-menu-box{
-    width: 100%;
-    height: 120rpx;
-    position: fixed;
-    bottom: 98rpx;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    // background: #ffffff;
-    padding: 0 30rpx;
-    .tab-item{
-      width: 160rpx;
-      height: 60rpx;
-      border-radius: 10rpx;
-      border: 1rpx solid #dddddd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff;
-      p{
-        font-size: 24rpx;
-        color: #999999;
-      }
-    }
-    .tab-selected{
-      border: none;
-      background: #ff3333;
-      p{
-        color: #ffffff;
-      }
-    }
-}
-.swiper-box{
-  width: 100%;
-  height: 600rpx;
-  background: #333333;
-  .slide-image{
-    width: 750rpx;
-    height: 600rpx;
-  }
-}
-.scroller-box{
-  width: 100%;
-  background: #f5f5f5;
-  .scroll-bottom{
-    width: 100%;
-    height: 200rpx;
-  }
-}
-  .circleMenu{
-    position: fixed;
-    right: 10rpx;
-    bottom:10rpx
-  }
+@import './index';
 </style>
 <style lang="less">
   .wx-parse-box {

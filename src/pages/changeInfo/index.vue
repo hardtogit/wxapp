@@ -8,6 +8,12 @@
                  :rightText="UserInfo&&UserInfo.phone||'未绑定'" ></cell-item>
       <button v-if="UserInfo&&!UserInfo.phone" class="bindBtn" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth">绑定手机号</button>
     </div>
+    <div class="box">
+      <cell-item  leftText="地址管理" iconClass="fa fa-"
+                 :handleClick="()=>ToOtherPage('../codeEdit/main')">
+
+      </cell-item>
+    </div>
     <bind-mobile ref="bindMobile" :callBack="GetUserInfo"></bind-mobile>
   </div>
 </template>

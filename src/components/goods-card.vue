@@ -117,6 +117,7 @@
   }
   .sale-bar{
     width: 300rpx;
+    overflow: hidden;
     height: 28rpx;
     border-radius: 14rpx;
     background-color: rgba(252,197,48,.2);
@@ -140,7 +141,7 @@
       color: #666;
       text-align: left;
       line-height: 28rpx;
-      padding-left: 10rpx;
+      text-indent: 10rpx;
     }
     .level{
       position: relative;
