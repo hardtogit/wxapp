@@ -1,7 +1,7 @@
 <template>
   <div class="container-box">
     <div class="box">
-    <cell-item :borderBottom="true" leftText="推荐二维码" iconClass="fa fa-qrcode"
+    <cell-item :borderBottom="true" leftText="推荐二维码" iconClass="fa fa-qrcode" size="20"
                :handleClick="()=>ToOtherPage('../codeEdit/main')"
                rightText="未上传" :rightImage="(UserInfo&&UserInfo.qid)&&UserInfo.qrcode"></cell-item>
       <cell-item  leftText="绑定手机号" iconClass="fa fa-mobile"
@@ -9,8 +9,8 @@
       <button v-if="UserInfo&&!UserInfo.phone" class="bindBtn" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth">绑定手机号</button>
     </div>
     <div class="box">
-      <cell-item  leftText="地址管理" iconClass="fa fa-"
-                 :handleClick="()=>ToOtherPage('../codeEdit/main')">
+      <cell-item  leftText="地址管理" iconClass="fa fa-map-signs" size="20"
+                 :handleClick="()=>ToOtherPage('../addressManage/main')">
 
       </cell-item>
     </div>

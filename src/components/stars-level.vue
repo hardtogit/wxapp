@@ -51,15 +51,15 @@ export default {
     margin-right: 4rpx;
   }
   .star-one{
-    width: 24rpx;
-    height: 24rpx;
-    background: url('../../static/image/star_on_icon.png') no-repeat;
+    width: 10px;
+    height: 10px;
+    background: url('../../static/image/star_on.png') no-repeat;
     background-size: 100% 100%;
   }
   .star-two{
-    width: 24rpx;
-    height: 24rpx;
-    background: url('../../static/image/star_gray_icon.png') no-repeat;
+    width: 10px;
+    height: 10px;
+    /*background: url('../../static/image/star_gray_icon.png') no-repeat;*/
     background-size: 100% 100%;
   }
 }

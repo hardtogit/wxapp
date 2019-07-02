@@ -1,7 +1,7 @@
 <template>
   <div :class="{'cell':true,'borderTop':borderTop,'borderBottom':borderBottom}" @click="handleClick">
     <div class="left">
-      <div v-if="iconClass" :class="iconClass" class="icon"></div><div class="leftText">{{leftText}}</div>
+      <div v-if="iconClass" :class="iconClass" class="icon" :style="'font-size:'+size+'px' "></div><div class="leftText">{{leftText}}</div>
     </div>
     <div class="right">
        <div class="rightText"><div v-if="!rightImage">{{rightText}}</div>
@@ -41,6 +41,10 @@ export default {
       type: Boolean,
       default: false
     },
+    size: {
+      type: String,
+      default: 28
+    },
     handleClick: {
       default: () => { }
     }
@@ -67,14 +71,14 @@ export default {
     padding: 10px 0;
     font-size: 14px;
     &.borderTop{
-      border-top: 1rpx solid #ddd;
+      border-top: 1rpx solid #e8e8e8;
     }
     &.borderBottom{
-      border-bottom: 1rpx solid #ddd;
+      border-bottom: 1rpx solid #e8e8e8;
     }
     .icon{
       font-size: 28px;
-      flex: 0 52px;
+      flex: 0 46px;
       text-align: center;
       color:#ab9985
     }
@@ -100,7 +104,7 @@ export default {
         width: 24px;
         height: 24px;
         float: right;
-        padding-right: 12px;
+        /*padding-right: 12px;*/
       }
     }
 

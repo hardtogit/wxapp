@@ -1,12 +1,12 @@
 <template>
   <div class="container-box">
+    <div v-if="UserInfo.cansetqrcode">
     <div class="switch">
       <div class="left">使用官方群二维码 </div>
       <div class="right">
         <switch :disabled="!UserInfo.cansetqrcode" :checked="!useMyCode" color="#ab9985"  @change="switchChange"/>
       </div>
     </div>
-    <p class="my-tip">成功分销三个订单即可成为分享达人,系统自动开放群管理功能,自动推荐附近的人加群,主动分享的用户同时显示该群码</p>
     <div class="box" v-if="useMyCode">
       <div class="title">
         上传我的群二维码
@@ -31,8 +31,17 @@
            </div>
       </div>
     </div>
+      <div class="box" v-if="!useMyCode">
+        <image v-if="picUrl" :src="picUrl"  class="img-style"/>
+      </div>
     <div class="btn-box">
     <button class="submit-btn" @click="SubmitFunc">确认提交</button>
+    </div>
+    </div>
+    <div v-if="!UserInfo.cansetqrcode" class="noCode">
+      <image class="img" src="https://cdn.618000.com/static/images/rocket.png"></image>
+      <div class="tip">成功分销三个订单后可成为分享达人</div>
+      <div class="description">系统自动开放群管理功能，自动推荐附近的人加群，主动分享的用户同时显示该群码</div>
     </div>
   </div>
 </template>
@@ -201,7 +210,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: #f5f5f5;
+  /*background: #f5f5f5;*/
   .switch{
     display: flex;
     align-items: center;
@@ -287,6 +296,31 @@ export default {
       color: #ffffff;
     }
   }
+  .noCode{
+    padding: 0 40px;
+    .img{
+      width: 157.5px;
+      height: 162.5px;
+      margin: 35px auto 20px auto;
+      display: block;
+    }
+    .tip{
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+    }
+    .description{
+      font-size: 14px;
+      color: #333;
+      margin-top: 17.5px;
+      line-height: 1.5;
+    }
+  }
 }
+</style>
+<style>
+  page{
+    background-color: #fff;
+  }
 </style>
 

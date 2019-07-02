@@ -35,7 +35,7 @@
               <text class="original-price">￥{{GoodsInfo.marketprice}}</text>
             </div>
             <div class="info-bottom-right">
-              <div class="sale-bar">
+              <div class="sale-bar" v-if="GoodsInfo.showsales===1">
                 <div class="saled" :style="'width:'+100*GoodsInfo.sales/(GoodsInfo.stock+GoodsInfo.sales)+'%'">
                   已售{{GoodsInfo.sales}}
                 </div>
@@ -47,7 +47,7 @@
           </div>
 
         </div>
-        <div class="use-info">
+        <div class="use-info" v-if="GoodsInfo.take==='V'">
           <div class="list-item">
             <!-- <p>使用时间：2018年8月14日至2019年9月20日</p> -->
             <p>使用时间：{{GoodsInfo.expire}}</p>
@@ -84,7 +84,7 @@
           <div class="top-right">
             <!--<div class="map-icon" @click="navigationFunc()"></div>-->
             <!-- <div class="phone-icon" @click="callPhone(GoodsInfo.storeInfo.storephone)"></div> -->
-            <div class="phone-icon" @click="popShowFunc('phoneView')"></div>
+            <div class="phone-icon" @click="Call(GoodsInfo.storeInfo.storephone)"></div>
           </div>
         </div>
         <div class="shopinfo-bottom" @click="navigationFunc()">
@@ -126,6 +126,7 @@
             :marketprice="value.marketprice"
             :sales="value.sales"
             :stock="value.stock"
+            :showsales='GoodsInfo.showsales'
             :clickFn="()=>ToOtherPage(`../goods/main?gid=${value.id}`)"
           ></goods-card>
         </div>
@@ -162,6 +163,10 @@
         </div>
       </div>
       <!-- 奖惩制度 end -->
+      <div class="technology" @click="popShowFunc('technicalSupportPop')">
+        <div class="icon"></div>
+        不是宝贝不推荐
+      </div>
       <div class="scroll-bottom"></div>
     </scroll-view>
     <!-- 菜单导航 start -->
@@ -194,15 +199,26 @@
       </div>
     </div>
     <!-- 菜单导航 end -->
+
+    <!-- 发货时间 start -->
+    <!--<div class="send-time" v-if="GoodsInfo.take!=='V'&&GoodsInfo.presell==='Y'">-->
+      <!--{{GoodsInfo.deliverytime}}号发货-->
+    <!--</div>-->
+    <!-- 发货时间 end -->
+
     <!-- 底部按钮 start -->
     <div class="bottom-box">
       <!-- <div class="kf-btn">
         <div class="kf-icon"></div>
         <p>客服</p>
       </div> -->
-      <div @click="popShowFunc('sharePopView')" class="kf-btn">
+      <div @click="popShowFunc('sharePopView')" class="kf-btn fx-btn">
         <div class="kf-icon"></div>
         <p>分享</p>
+      </div>
+      <div @click="Call(GoodsInfo.storeInfo.storephone)" class="kf-btn">
+        <div class="kf-icon "></div>
+        <p>客服</p>
       </div>
       <div class="buy-now" @click="popShowFunc('buyNowPop')" v-if="GoodsInfo.stock > 0">
         <div class="btn">
@@ -322,7 +338,7 @@ export default {
       receiveCouponInfo: null,
       isScroll: true,
       init: false,
-      showNav: false
+      showNav: true
     }
   },
   components: {
@@ -356,6 +372,22 @@ export default {
     // 绑定手机成功
     BindmobileSuccess (uid, phone) {
       this.$refs.buyNowPop.BindmobileSuccess(uid, phone)
+    },
+    Call (phone) {
+      wx.makePhoneCall({
+        phoneNumber: phone
+      })
+    },
+    GetDefault () {
+      const $this = this
+      this.$store.dispatch({
+        type: 'GetDefaultAddress'
+      }).then((data) => {
+        console.log(data.data)
+        setTimeout(() => $this.$refs.buyNowPop.SetAddress(data.data), 2000)
+
+        // $this.$eventBus.$emit('choiceAddress', data.data)
+      })
     },
     // 打开评论详情
     ShowCommentDetail (id) {
@@ -555,7 +587,7 @@ export default {
           title: '数据加载中'
         })
       }
-      let goodsId = _this.queryObj && _this.queryObj.gid ? _this.queryObj.gid : '27'
+      let goodsId = _this.queryObj && _this.queryObj.gid ? _this.queryObj.gid : '10'
       _this.$store.dispatch({
         type: 'GetGoodsById',
         data: {
@@ -693,6 +725,7 @@ export default {
     const _this = this
     _this.InitalData()
     _this.getSystemInfo()
+    _this.GetDefault()
     if (option.scene) {
       let scene = decodeURIComponent(option.scene)
       _this.$store.dispatch({

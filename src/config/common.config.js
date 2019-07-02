@@ -4,6 +4,7 @@ export const POSTER_API = '/miniapp/poster'
 export const USER_API = '/miniapp/user'
 export const COUPON_API = '/miniapp/coupon'
 export const ORDER_API = '/miniapp/orders'
+export const BASE_API = '/miniapp'
 export const StatusCode = {
   Success: 1
 }

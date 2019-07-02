@@ -8,7 +8,7 @@
         <div class="left-box">
           <p class="username">{{dataInfo.userinfo&&dataInfo.userinfo.nickname}}</p>
           <div class="star-list">
-            <stars-level :score="score"></stars-level>
+            <span class="rate">{{score}}</span><stars-level :score="score"></stars-level>
           </div>
         </div>
         <!-- <div class="create-time">1小时前</div> -->
@@ -18,8 +18,8 @@
       <div class="img-list" v-if="dataInfo.piclist && dataInfo.piclist.length > 0">
         <image v-for="(item, index) in dataInfo.piclist" :key="index" :src="item" class="img-item"/>
       </div>
-      <div class="look-num"><p>浏览 {{dataInfo.views}}</p></div>
-      <div class="shop-reply" v-if="dataInfo.isreplay !== 0">[商家回复] {{dataInfo.replaycontent}}</div>
+      <!--<div class="look-num"><p>浏览 {{dataInfo.views}}</p></div>-->
+      <div class="shop-reply" v-if="dataInfo.isreplay !== 0"><span class="label">[商家回复]</span> {{dataInfo.replaycontent}}</div>
     </div>
   </div>
 </template>
@@ -57,30 +57,29 @@ export default {
 <style lang="less" scoped>
 @import '../../static/style/reset';
 .comment-item{
-  width: 710rpx;
+  width: 345px;
   overflow: hidden;
-  padding: 40rpx 20rpx;
+  padding: 20px 0;
   background: #ffffff;
-  box-shadow: 0px 10rpx 10rpx 0px	rgba(7, 0, 2, 0.17);
-  border-radius: 10rpx;
-  border: 1px solid #f7f7f7;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20rpx;
+  /*margin-bottom: 10px;*/
+  border-bottom: 0.5px solid #e8e8e8;
   .user-pic{
-    flex: 0 0 68rpx;
-    width: 68rpx;
-    height: 68rpx;
-    border-radius: 34rpx;
+    flex: 0 0 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     overflow: hidden;
     .pic-img{
-      width: 68rpx;
-      height: 68rpx;
+      width: 35px;
+      height: 35px;
       background: #fafafa;
     }
   }
   .comment-item-main{
-    width: 575rpx;
+    flex: 1;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
     .user-info{
@@ -93,11 +92,18 @@ export default {
         flex-direction: column;
         justify-content: center;
         .username{
-          font-size: 28rpx;
+          font-size: 14px;
           color: #333333;
+          font-weight: bold;
         }
         .star-list{
           margin-top: 10rpx;
+          .rate{
+            float: left;
+            font-size: 10px;
+            margin-right: 4px;
+            color: #FFB155;
+          }
         }
       }
       .create-time{
@@ -109,7 +115,7 @@ export default {
       margin-top: 10rpx;
       font-size: 28rpx;
       line-height: 34rpx;
-      color: #010101;
+      color: #333;
     }
     .look-num{
       display: flex;
@@ -145,12 +151,17 @@ export default {
       }
     }
     .shop-reply{
-      margin-top: 30rpx;
-      background: #eeeeee;
-      padding: 20rpx;
-      font-size: 24rpx;
-      line-height: 28rpx;
+      margin-top: 15px;
+      background: #fafafa;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 16px;
+      border-radius: 8px;
       color: #333333;
+      .label{
+        color: #666;
+        font-size: 12px;
+      }
     }
   }
 }

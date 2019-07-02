@@ -8,7 +8,7 @@
         <text class="original-price">￥{{marketprice}}</text>
       </div>
     </div>
-    <div class="sale-bar">
+    <div class="sale-bar" v-if="showsales===1">
       <div class="saled" :style="'width:'+100*sales/(stock+sales)+'%'">
         已售{{sales}}
       </div>
@@ -47,6 +47,10 @@
       },
       clickFn: {
         default: () => { }
+      },
+      showsales: {
+        type: Number,
+        default: 1
       }
     },
     data () {

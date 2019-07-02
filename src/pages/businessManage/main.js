@@ -12,9 +12,6 @@ export default {
     navigationBarTextStyle: 'black',
     enablePullDownRefresh: true,
     backgroundTextStyle: 'dark',
-    backgroundColor: '#f5f5f5',
-    usingComponents: {
-      'ec-canvas': '../../../static/ec-canvas/ec-canvas'
-    }
+    backgroundColor: '#f5f5f5'
   }
 }

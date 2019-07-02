@@ -3,11 +3,14 @@ import * as GlobalsApi from '@/api/globals'
 import * as PosterApi from '@/api/poster'
 import * as UserApi from '@/api/user'
 import * as OrderApi from '@/api/order'
+import * as StoreApi from '@/api/store'
 import * as config from '@/config/common.config'
+// import { BASE_API } from '../../../config/common.config'
 
 const basePromiss = (apiGroup, apiKey, params, commit, key) => {
   return new Promise((resolve, reject) => {
     apiGroup[apiKey](params.data).then(response => {
+      console.log(response)
       if (response.code === config.StatusCode.Success) {
         if (commit) {
           commit(key, response.data)
@@ -182,6 +185,45 @@ export default {
         })
       })
     })
-  }
+  },
 
+  // 个人
+  GetAddressList ({commit}, opt) {
+    return basePromiss(UserApi, 'GetAddressList', opt)
+  },
+  AddAddress ({commit}, opt) {
+    return basePromiss(UserApi, 'AddAddress', opt)
+  },
+  EditAddress ({commit}, opt) {
+    return basePromiss(UserApi, 'EditAddress', opt)
+  },
+  DeleteAddress ({commit}, opt) {
+    return basePromiss(UserApi, 'DeleteAddress', opt)
+  },
+  GetDefaultAddress ({commit}, opt) {
+    return basePromiss(UserApi, 'GetDefaultAddress', opt)
+  },
+  SureReceive ({commit}, opt) {
+    return basePromiss(UserApi, 'SureReceive', opt)
+  },
+
+  // 商户
+  GetCompany ({commit}, opt) {
+    return basePromiss(StoreApi, 'GetCompany', opt)
+  },
+  SendFar ({commit}, opt) {
+    return basePromiss(StoreApi, 'SendFar', opt)
+  },
+  FindCompany ({commit}, opt) {
+    return basePromiss(StoreApi, 'FindCompany', opt)
+  },
+  FinanceCount ({commit}, opt) {
+    return basePromiss(StoreApi, 'FinanceCount', opt)
+  },
+  BankList ({commit}, opt) {
+    return basePromiss(StoreApi, 'BankList', opt)
+  },
+  StoreWithdraw ({commit}, opt) {
+    return basePromiss(StoreApi, 'StoreWithdraw', opt)
+  }
 }

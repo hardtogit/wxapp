@@ -9,9 +9,9 @@
     <div class="scroller-container" :style="{height: WinHeight + 'px'}">
       <scroll-view class="scroller-box"
         :scroll-y="true"
-        :upper-threshold="-30" 
-        :lower-threshold="50" 
-        @scrolltoupper="scrolltoupper" 
+        :upper-threshold="-30"
+        :lower-threshold="50"
+        @scrolltoupper="scrolltoupper"
         @scrolltolower="scrolltolower"
         :style="{height: WinHeight + 'px'}"
         v-if="CommentInfo.data && CommentInfo.data.length > 0"
@@ -22,8 +22,8 @@
           </div>
         </div>
       </scroll-view>
-      <nothing 
-        v-if="!CommentInfo.data || CommentInfo.data.length === 0" 
+      <nothing
+        v-if="!CommentInfo.data || CommentInfo.data.length === 0"
         @on-refresh="onRefresh">
       </nothing>
     </div>
@@ -148,6 +148,7 @@ export default {
   onLoad (option) {
     this.queryObj = option
     this.getSystemInfo()
+    this.SelectedCommentType = config.CommentType.All
     this.GetCommentList(config.DefaultPage.Page, config.LoadType.DOWN)
   },
   components: {
@@ -171,18 +172,21 @@ export default {
     display: flex;
     align-items: center;
     .classify-item{
-      width: 100rpx;
-      height: 46rpx;
-      background: #eeeeee;
-      border-radius: 10rpx;
+      width: 50px;
+      height: 20px;
+      background: #fff;
+      border-radius: 10px;
       text-align: center;
-      line-height: 46rpx;
-      font-size: 20rpx;
-      color: #333333;
-      margin-right: 20rpx;
+      line-height: 19px;
+      font-size: 13px;
+      color: #666;
+      margin-right: 10px;
+      box-sizing: border-box;
+      border: 0.5px solid #eee;
       &.item-seleted{
-        background: #fb0101;
-        color: #ffffff;
+        background:rgba(235,61,62,.1);
+        border: 0.5px solid rgba(235,61,62,.1);
+        color: #EB3D3E;
       }
     }
   }

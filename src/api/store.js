@@ -99,3 +99,60 @@ export function GetVirtualList (data) {
     data
   })
 }
+// 获取商家发货数据
+export function GetSend (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.STORE_API + '.virtual/vlist',
+    method: 'post',
+    data
+  })
+}
+// 获取快递公司列表
+export function GetCompany (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/orders/express',
+    method: 'post',
+    data
+  })
+}
+// 快递发货
+export function SendFar (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/store.send/plain',
+    method: 'post',
+    data
+  })
+}
+// 识别快递公司
+export function FindCompany (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/store.express/getcom',
+    method: 'post',
+    data
+  })
+}
+// 财务明细
+export function FinanceCount (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/store.finance/lists',
+    method: 'post',
+    data
+  })
+}
+
+// 银行卡明细
+export function BankList (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/store.drawings/backinfo',
+    method: 'post',
+    data
+  })
+}
+// 余额提现
+export function StoreWithdraw (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/store.drawings/submit',
+    method: 'post',
+    data
+  })
+}

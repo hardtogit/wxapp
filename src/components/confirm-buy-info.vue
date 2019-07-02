@@ -17,7 +17,9 @@
                     <p class="discount-price">¥{{selectedGoods.sellprice}}</p>
                     <p class="original-price">￥{{selectedGoods.marketprice}}</p>
                   </div>
-                  <div class="close-btn" @click="showFunc"></div>
+                  <div class="close-btn" @click="showFunc">
+                    <div class="icon"></div>
+                  </div>
                 </div>
                 <div class="yxz-box" v-if="goodsInfo.attribute > 1">
                   <p class="yxz-title">已选择: </p>
@@ -57,13 +59,6 @@
                   <p class="title-name">商品使用有效期</p>
                   <div class="yxq-box"><span>2018.8.19 15:30</span>至<span>2018.12.9 15:30</span></div>
                 </div> -->
-                <div class="commom-li">
-                  <div class="title-name yhq-left">优惠券</div>
-                  <div class="yhq-right">
-                    <p v-if="!coupon">暂无优惠券</p>
-                    <p v-if="coupon">{{coupon.denomination}}元抵扣券</p>
-                  </div>
-                </div>
                 <!-- <div class="commom-li">
                   <div class="ye-left">
                     <p class="title-name">使用钱包余额抵扣</p>
@@ -71,13 +66,39 @@
                   </div>
                   <switch :checked="isUseBalance" @change="UseBalanceSwitch"/>
                 </div> -->
+                <!--<div class="commom-li">-->
+                  <!--<div class="totle-price">小计: <span>¥ {{totlePrice}}</span></div>-->
+                <!--</div>-->
+              </div>
+              <div class="form-main bottom-contaiber" >
                 <div class="commom-li">
-                  <div class="totle-price">小计: <span>¥ {{totlePrice}}</span></div>
+                  <div class="title-name yhq-left">优惠券</div>
+                  <div class="yhq-right">
+                    <p v-if="!coupon">暂无优惠券</p>
+                    <p v-if="coupon">{{coupon.denomination}}元抵扣券</p>
+                  </div>
                 </div>
+                <div v-if="goodsInfo.take!=='V'">
+                <div class="commom-li choice" @click="push()" v-if="!address">
+                  <div class="title-name yhq-left">请选择收货地址</div>
+                  <div class="yhq-right">
+                  </div>
+                </div>
+                <div class="commom-li address" @click="push()"  v-if="address">
+                  <div class="left">
+                    <div class="person"><span class="name">{{address.consignee}}</span><span class="phone">{{address.mobile}}</span></div>
+                    <div class="detail"><div class="icon"></div><div class="text">{{address.label}} {{address.detail}} {{address.remark}}</div></div>
+                  </div>
+                  <div class="yhq-right">
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="rectangle" v-if="goodsInfo.take!=='V'">
               </div>
               <div class="mzxy-box" @click="showOtherPop('dutyDeclarPop')">
                 <div class="box-left">
-                  <radio value="1" :checked="true" color="#ff3333"/>
+                  <div class="radio"></div>
                   <p>我已阅读并同意网站条款!</p>
                 </div>
               </div>
@@ -86,7 +107,7 @@
                   <p class="word-str">合计实际支付金额</p>
                   <p class="price-num">￥{{totlePrice}}</p>
                 </div>
-                <div class="pay-now-btn" @click="PayNow">立即支付</div>
+                <div class="pay-now-btn" @click="PayNow"><div class="btn">立即支付</div></div>
               </div>
             </div>
           </div>
@@ -127,7 +148,8 @@ export default {
       coupon: null, // 优惠券
       defaultBuyNum: 1, // 默认购买数量
       maxBuyNum: 10, // 最大购买数量
-      userInfo: wx.getStorageSync(SN.UserInfo)
+      userInfo: wx.getStorageSync(SN.UserInfo),
+      address: undefined
     }
   },
   methods: {
@@ -149,6 +171,9 @@ export default {
       this.isUseBalance = false // 是否使用余额
       this.coupon = null // 优惠券
       this.userInfo = wx.getStorageSync(SN.UserInfo)
+    },
+    SetAddress (address) {
+      this.address = address
     },
     // 触发手动绑定手机弹框出现
     BindmobileFunc () {
@@ -189,6 +214,10 @@ export default {
         _this.BindmobileFunc()
       }
     },
+    // 跳转页面
+    push () {
+      wx.navigateTo({url: `../choicePlace/main`})
+    },
     // 手机号码绑定成功后触发事件
     BindmobileSuccess (uid, phone) {
       const _this = this
@@ -224,7 +253,7 @@ export default {
       // console.log('')
     },
     PaySuccess (id) {
-      const url = '../paySuccess/main?orderid=' + id
+      const url = '../paySuccess/main?orderid=' + id + '&type=' + this.goodsInfo.take
       wx.navigateTo({ url })
     },
     // 购买事件
@@ -252,12 +281,19 @@ export default {
           icon: 'none'
         })
       }
+      if (_this.goodsInfo.take !== 'V' && !_this.address) {
+        return wx.showToast({
+          title: '收货地址必须选择',
+          icon: 'none'
+        })
+      }
       wx.showLoading({
         title: '订单生成中'
       })
       let formData = {
         gid: _this.goodsInfo.id,
         specid: _this.selectedGoods.id,
+        addrid: _this.address && _this.address.id,
         number: _this.buyNum,
         remark: '',
         couponid: _this.coupon && _this.coupon.id ? _this.coupon.id : 0
@@ -281,7 +317,6 @@ export default {
           signType: res.data.signType,
           paySign: res.data.paySign,
           success: obj => {
-            // console.log(obj)
             if (obj.errMsg === 'requestPayment:ok') { // 调用支付成功
               wx.showToast({
                 title: '购买成功',
@@ -445,7 +480,13 @@ export default {
       }
     }
   },
-  onLoad () {},
+  onLoad () {
+    const $this = this
+    this.$eventBus.$on('choiceAddress', function (value) {
+      console.log(JSON.stringify(value))
+      $this.address = value
+    })
+  },
   watch: {
     // 监听购买数量
     buyNum: function (val) {
@@ -565,13 +606,19 @@ export default {
           }
         }
         .close-btn{
-          width: 36rpx;
-          height: 36rpx;
-          background: url('../../static/image/close_icon.png') no-repeat;
-          background-size: 100% 100%;
+          width: 64rpx;
+          height: 64rpx;
           position: absolute;
-          top: 20rpx;
-          right: 0rpx;
+          top:10rpx;
+          right:-20rpx;
+          .icon{
+            width: 36rpx;
+            height: 36rpx;
+            background: url('../../static/image/close_icon.png') no-repeat;
+            background-size: 100% 100%;
+            margin-left: 18rpx;
+            margin-top: 10rpx;
+          }
         }
       }
       .yxz-box{
@@ -616,9 +663,9 @@ export default {
             flex-wrap: wrap;
             .item-default{
               margin-right: 20rpx;
-              height: 45rpx;
+              height: 48rpx;
               padding: 0 34rpx;
-              line-height: 43rpx;
+              line-height: 46rpx;
               border-radius: 10rpx;
               border: 1rpx solid #999999;
               background: #ffffff;
@@ -641,6 +688,54 @@ export default {
               }
             }
           }
+        }
+      }
+      &.bottom-contaiber{
+        margin-top: 10px;
+        text-align: right;
+        .commom-li{
+          border-top: none;
+        }
+        .choice{
+          border-top: 1rpx solid #ebebeb;
+          padding: 40px 0;
+          .yhq-left{
+            &::before{
+              width: 0;
+              background: none;
+            }
+          }
+        }
+        .address{
+          .left{
+            flex: 1;
+            text-align: left;
+            .person{
+              font-size: 14px;
+              color: #333;
+              .name{
+                margin-right: 8px;
+              }
+            }
+            .detail{
+              .icon{
+                width: 13px;
+                height: 13px;
+                display: inline-block;
+                background: url("../../static/image/iconadress.png");
+                background-size: 100% 100%;
+                float: left;
+                margin-right: 4px;
+              }
+              .text{
+                line-height: 16px!important;
+              }
+              font-size: 12px;
+              color: #666;
+              margin-top: 10px;
+            }
+          }
+
         }
       }
       .commom-li{
@@ -746,27 +841,32 @@ export default {
         }
       }
     }
+    .rectangle{
+      height: 8px;
+      background: url("../../static/image/rectangle.png");
+      background-size: 100% 100%;
+    }
     .mzxy-box{
-      margin-top: 20rpx;
       background: #ffffff;
-      padding: 20rpx 30rpx;
+      padding: 10px 15px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       .box-left{
         display: flex;
         align-items: center;
+        .radio{
+          content: '';
+          width: 14px;
+          height: 14px;
+          background: url('../../static/image/checklist.png') no-repeat;
+          background-size: 100% 100%;
+          margin-right: 4px;
+        }
         p{
-          font-size: 24rpx;
+          font-size: 12px;
           color: #333333;
         }
-      }
-      &::after{
-        content: '';
-        width: 17rpx;
-        height: 29rpx;
-        background: url('../../static/image/more_icon.png') no-repeat;
-        background-size: 100% 100%;
       }
     }
     .bottom-box{
@@ -795,12 +895,23 @@ export default {
       }
       .pay-now-btn{
         flex: 1;
-        height: 98rpx;
-        background: linear-gradient(225deg,	#f4042b 0%,	#fa5353 100%);
-        font-size: 28rpx;
-        line-height: 98rpx;
-        color: #ffffff;
-        text-align: center;
+        border-top: 1px solid #eee;
+        height: 49px;
+        text-align: right;
+        background-color: #fff;
+        .btn{
+          width: 140px;
+          background:linear-gradient(90deg,rgba(233,52,62,1) 0%,rgba(233,107,52,1) 100%);
+          font-size: 14px;
+          line-height: 40px;
+          color: #ffffff;
+          text-align: center;
+          border-radius: 20px;
+          height: 40px;
+          float: right;
+          margin-right: 10px;
+          margin-top: 4px;
+        }
       }
     }
   }

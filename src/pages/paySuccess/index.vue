@@ -5,8 +5,7 @@
         <p>购买支付成功</p>
       </div>
       <button v-if="UserInfo&&!UserInfo.phone" class="bind-btn" open-type="getPhoneNumber" @getphonenumber="Bindmobilebyauth"><div class="text"><div>绑定手机号</div><div class="tip">核销码过期前15日会短信提醒您</div></div></button>
-      <div class="use-btn" @click="GoToOrderDetail">立即使用核销码</div>
-
+      <div v-if="optionObj.type==='V'" class="use-btn" @click="GoToOrderDetail">立即使用核销码</div>
     </div>
     <div v-if="GoodsInfo&&GoodsInfo.qrcode" class="qrcode">
       <image @click="preImage" class="qun-qrcode" :src='GoodsInfo&&GoodsInfo.qrcode'/>
@@ -62,13 +61,13 @@
     <!--合同细则弹出层 start-->
     <contract-pop ref="contractPop"></contract-pop>
     <!--合同细则弹出层 end-->
-    <circle-menu class="circleMenu" ref="circleMenu"
-                 type="top" :number="4"
-                 :btn="true" :circle="true"
-                 :btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},
-                 {text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}
-                 ]">
-    </circle-menu>
+    <!--<circle-menu class="circleMenu" ref="circleMenu"-->
+                 <!--type="top" :number="4"-->
+                 <!--:btn="true" :circle="true"-->
+                 <!--:btns="[{text:'商户',extend:'信息',fn:()=>popShowFunc('shopinfoPop')},{text:'技术',extend:'支持', fn:()=>popShowFunc('technicalSupportPop')},-->
+                 <!--{text:'商户',extend:'合作',fn:()=>popShowFunc('becomeBusinessPop')},{text:'会员',extend:'中心',fn:()=>GoToMeView()}-->
+                 <!--]">-->
+    <!--</circle-menu>-->
   </div>
 </template>
 <script>
@@ -213,13 +212,13 @@ export default {
     }
   },
   // 滚动时隐藏菜单栏
-  onPageScroll: function (e) {
-    if (this.$refs.circleMenu.open === true) {
-      this.$refs.circleMenu.open = false
-      this.$refs.circleMenu.toggleAnimate = false
-      this.$refs.circleMenu.MaskToggle = false
-    }
-  },
+  // onPageScroll: function (e) {
+  //   if (this.$refs.circleMenu.open === true) {
+  //     this.$refs.circleMenu.open = false
+  //     this.$refs.circleMenu.toggleAnimate = false
+  //     this.$refs.circleMenu.MaskToggle = false
+  //   }
+  // },
   onHide () {
     if (this.$refs.circleMenu.open === true) {
       this.$refs.circleMenu.open = false

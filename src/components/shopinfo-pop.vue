@@ -11,25 +11,26 @@
                 <div class="card-container">
                   <div class="close-btn" @click="showFunc"></div>
                   <div class="list-item">
-                    <p style="font-size: 36rpx; color: #333333;">{{dataInfo.storename}}</p>
+                    <p style="font-size: 16px; color: #333333;">{{dataInfo.storename}}</p>
                   </div>
-                  <div class="list-item" v-if="dataInfo.datum">
-                    <p>营业执照编号：{{dataInfo.datum.orgid}}</p>
+                  <div class="content">
+                  <div class="left" v-if="dataInfo.datum">
+                        <image :src="dataInfo.datum.cardphoto" class="image-item" mode="aspectFill"/>
                   </div>
-                  <div class="list-item" v-if="dataInfo.datum">
-                    <p>公司注册资金：{{dataInfo.datum.regamount}}元人民币</p>
-                  </div>
-                  <div class="list-item">
-                    <p>公司注册地址：{{dataInfo.detailAddress}}</p>
-                  </div>
-                  <div class="list-item">
-                    <p>公司客服电话：{{dataInfo.storephone}}</p>
-                  </div>
-                  <div class="list-item" v-if="dataInfo.datum">
-                    <p>营业执照照片</p>
-                    <div class="img-list">
-                      <image :src="dataInfo.datum.cardphoto" class="image-item" mode="aspectFill"/>
+                  <div class="right">
+                    <div class="list-item" v-if="dataInfo.datum">
+                      <p>编&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：{{dataInfo.datum.orgid}}</p>
                     </div>
+                    <div class="list-item" v-if="dataInfo.datum">
+                      <p>注册资金：{{dataInfo.datum.regamount}}元人民币</p>
+                    </div>
+                    <div class="list-item">
+                      <p>注册地址：{{dataInfo.detailAddress}}</p>
+                    </div>
+                    <div class="list-item">
+                      <p>客服电话：{{dataInfo.storephone}}</p>
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -83,34 +84,51 @@ export default {
     background: #ffffff;
     .card-container{
       width: 100%;
-      padding: 80rpx 30rpx 40rpx 30rpx;
-      display: flex;
-      flex-direction: column;
+      padding: 15px;
+      /*flex-direction: column;*/
       align-items: center;
       position: relative;
+      .content{
+        display: flex;
+        padding: 20px 0;
+      }
       .close-btn{
-        width: 36rpx;
-        height: 36rpx;
+        width: 15px;
+        height: 15px;
         background: url('../../static/image/close_icon.png') no-repeat;
         background-size: 100% 100%;
         position: absolute;
-        right: 20rpx;
-        top: 20rpx;
+        right: 15px;
+        top: 15px;
+      }
+      .left{
+        width:100px;
+        height: 142px;
+        .image-item{
+          width: 100%;
+          height: 100%;
+          /*margin-right: 12rpx;*/
+        }
+      }
+      .right{
+        flex: 1;
+        padding: 6px 0 6px 10px;
       }
       .list-item{
         width: 100%;
-        padding: 25rpx 0;
-        border-bottom: 1rpx solid #f4f4f4;
+        padding-bottom: 22px;
+        /*border-bottom: 1rpx solid #f4f4f4;*/
         p{
           font-size: 22rpx;
           color: #666666;
         }
         .img-list{
-          margin-top: 20rpx;
+          /*margin-top: 20rpx;*/
           display: flex;
           .image-item{
-            width: 245rpx;
-            margin-right: 12rpx;
+            width: 100%;
+            height: 100%;
+            /*margin-right: 12rpx;*/
           }
         }
       }

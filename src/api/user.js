@@ -97,3 +97,60 @@ export function GetAwardhistory (data) {
     data
   })
 }
+
+// 获得收货地址
+export function GetAddressList (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/address/lists',
+    method: 'post',
+    data
+  })
+}
+// 新增收货地址
+export function AddAddress (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/address/add',
+    method: 'post',
+    data
+  })
+}
+// 编辑收货地址
+export function EditAddress (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/address/edit',
+    method: 'post',
+    data
+  })
+}
+// 获取默认地址
+// export function GetDefaultAddress() {
+//   return Fly.Request({
+//     url: COMMON_CONFIG.BASE_API + '/address/edit',
+//     method: 'post',
+//     data
+//   })
+// }
+// 删除收货地址
+export function DeleteAddress (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/address/delete',
+    method: 'post',
+    data
+  })
+}
+// 获取默认收货地址
+export function GetDefaultAddress (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/address/getdefault',
+    method: 'post',
+    data
+  })
+}
+// 设置收货
+export function SureReceive (data) {
+  return Fly.Request({
+    url: COMMON_CONFIG.BASE_API + '/orders/finish',
+    method: 'post',
+    data
+  })
+}

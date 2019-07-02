@@ -13,6 +13,6 @@ export default {
     navigationBarTextStyle: 'black',
     enablePullDownRefresh: false,
     backgroundTextStyle: 'dark',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#fff'
   }
 }

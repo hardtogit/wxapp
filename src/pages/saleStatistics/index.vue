@@ -11,14 +11,14 @@
       </div>
     </div> -->
     <div class="title-box">
-      <p>直接销售</p>
+      <p>推荐订单</p>
     </div>
     <div class="scroller-container" :style="{height: WinHeight + 'px'}">
       <scroll-view class="scroller-box"
         :scroll-y="true"
-        :upper-threshold="-30" 
-        :lower-threshold="50"  
-        @scrolltoupper="scrolltoupper" 
+        :upper-threshold="-30"
+        :lower-threshold="50"
+        @scrolltoupper="scrolltoupper"
         @scrolltolower="scrolltolower"
         :style="{height: WinHeight + 'px'}"
         v-if="SalesRecord.data && SalesRecord.data.length > 0">
