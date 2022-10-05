@@ -1896,6 +1896,10 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
+dayjs@^1.7.7:
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.5.tgz#00e8cc627f231f9499c19b38af49f56dc0ac5e93"
+
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
@@ -6862,6 +6866,10 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vue-circle-menu@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue-circle-menu/-/vue-circle-menu-1.1.1.tgz#3347ea746b0457e0a1dec688c58eaf4326d32b57"
 
 vue-hot-reload-api@^2.1.0, vue-hot-reload-api@^2.2.0:
   version "2.3.0"
